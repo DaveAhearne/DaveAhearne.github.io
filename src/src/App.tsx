@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import NavigationBar from './navigationBar';
 import ContentSection from './contentSection';
 import Footer from './footer';
+import TitleBar from './titleBar';
 
 function App() {
   return (
     <main>
-      <h1>Less Human Industries</h1>
+      <TitleBar/>
       <section>
         <ContentSection title='Who Am I?' id='whoami' content={<div>
           <p>A Tech lead who is passionate about writing quality software, leading and mentoring teams, as

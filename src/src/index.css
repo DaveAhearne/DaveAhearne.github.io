@@ -11,7 +11,7 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -27,6 +27,7 @@ code {
 h1 {
   color: var(--brand-colour-1);
   font-size: 2rem;
+  text-align: center;
 }
 
 h2 {
@@ -34,8 +35,24 @@ h2 {
   font-size: 1.6rem;
 }
 
+p{
+  line-height: 1.4rem;
+}
+
 nav {
   text-align: center;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 2rem;
+}
+
+header > i {
+  font-size: 2.5rem;
+  color: var(--brand-colour-1);
 }
 
 footer {
@@ -53,8 +70,8 @@ margin: 0 0 0.5rem 0 ;
 }
 
 article {
-  height: 100vh;
-  padding: 0.5rem 1rem 0.1rem 1rem;
+  min-height: 90vh;
+  padding: 2vh 2rem 8vh 2rem;
 }
 
 article:nth-child(odd) {
@@ -83,7 +100,7 @@ i > p {
 }
 
 #mobile-navigation > li {
-  width: 20%;
+  max-width: 20%;
 }
 
 .skillslist {
