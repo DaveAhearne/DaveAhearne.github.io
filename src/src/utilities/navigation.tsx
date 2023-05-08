@@ -11,6 +11,10 @@ export function useNavigation() {
         }
     }
 
+    function NavigationLink(href: string, text: string, className?: string){
+        return <a className={className ? className : ""} onClick={() => Navigate(href)}>{text}</a>
+    }
+
     useEffect(() => {
         if(window.location.hash)
             Navigate(window.location.hash.slice(1))
@@ -22,6 +26,7 @@ export function useNavigation() {
 
     return {
         Navigate,
+        NavigationLink,
         hashLocation
     }
 }
