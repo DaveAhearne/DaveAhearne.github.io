@@ -84,7 +84,8 @@ i {
 }
 
 i > p {
-  margin: 0 0 0.8rem 0;
+  padding: 0 0 0.8rem 0;
+  margin: 0 0 0 0;
   font-size: 0.8rem;
 }
 
@@ -100,7 +101,7 @@ i > p {
 }
 
 #mobile-navigation > li {
-  max-width: 20%;
+  width: 100%;
 }
 
 .skillslist {

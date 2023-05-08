@@ -3,11 +3,13 @@ import logo from './logo.svg';
 import { useNavigation } from '../utilities/navigation';
 
 export interface ITitleBarProps {
+    id: string
 }
 
 function TitleBar(props: ITitleBarProps) {
+    const {id} = props;
     return (
-        <header>
+        <header id={id}>
             <i className="bi bi-robot"></i>
             <h1>Less Human Industries</h1>
         </header>

@@ -12,6 +12,11 @@ export function useNavigation() {
     }
 
     useEffect(() => {
+        if(window.location.hash)
+            Navigate(window.location.hash.slice(1))
+    }, [])
+
+    useEffect(() => {
         window.location.hash = hashLocation;
     }, [hashLocation])
 

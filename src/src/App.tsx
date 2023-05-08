@@ -6,7 +6,7 @@ import TitleBar from './titleBar';
 function App() {
   return (
     <main>
-      <TitleBar/>
+      <TitleBar id='title'/>
       <section>
         <ContentSection title='Who Am I?' id='whoami' content={<div>
           <p>A Tech lead who is passionate about writing quality software, leading and mentoring teams, as
