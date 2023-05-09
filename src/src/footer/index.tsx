@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import { useNavigation } from '../utilities/navigation';
 
 function Footer() {
@@ -8,7 +7,7 @@ function Footer() {
     <footer>
       <nav>
         <ul id='mobile-navigation'>
-          <li onClick={() => { Navigate("whoami") }}><i className="bi bi-person"><p>Me</p></i></li>
+          <li onClick={() => { Navigate("aboutme") }}><i className="bi bi-person"><p>Me</p></i></li>
           <li onClick={() => { Navigate("skills") }}><i className="bi bi-award"><p>Skills</p></i></li>
           <li onClick={() => { Navigate("workhistory") }}><i className="bi bi-building"><p>Employment</p></i></li>
           <li onClick={() => { Navigate("ratesandcontact") }}><i className="bi bi-currency-pound"><p>Rates</p></i></li>

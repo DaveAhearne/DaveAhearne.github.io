@@ -4,6 +4,14 @@ import Footer from './footer';
 import TitleBar from './titleBar';
 import { useNavigation } from './utilities/navigation';
 import presentation from "./presentation.png";
+import openmoneyLogo from "./companies/openmoney.svg";
+import parkerSandfordLogo from "./companies/parker_sandford.jpg";
+import raytheonLogo from "./companies/raytheon.png";
+import swintonLogo from "./companies/swinton.svg";
+import zenInternetLogo from "./companies/zen_internet.png";
+import johnFisherLogo from "./companies/john_fisher.png";
+import uclanLogo from "./companies/uclan.svg";
+import OrganizationDetails from './organizationDetails';
 
 function App() {
   const { NavigationLink } = useNavigation();
@@ -12,8 +20,8 @@ function App() {
     <main>
       <TitleBar id='title' />
       <section>
-        <ContentSection title='Who Am I?' id='whoami' content={<div>
-          <img src={presentation} alt='Image of David AHearne performing presentation'/>
+        <ContentSection title='About Me' id='aboutme' content={<div>
+          <img src={presentation} className='border' alt='David AHearne performing presentation' />
           <p>Hi! My name is David A'Hearne and I'm a contract software engineer with <span className='bold'>over 10 years experience</span> in the industry
           </p>
           <p>I'm passionate about writing <span className='bold'>good quality</span> software for clients that is well tested, performant and covers client requests in a timely manner</p>
@@ -57,10 +65,86 @@ function App() {
             </ul>
           </div>
         </div>} />
-        <ContentSection title='Work History & Education' id='workhistory' />
+        <ContentSection title='Work History & Education' id='workhistory' content={
+          <div>
+            <h3>Companies</h3>
+            <div className='companiesList'>
+              <OrganizationDetails
+                name='OpenMoney'
+                logo={openmoneyLogo}
+                link='https://www.open-money.co.uk/'
+                title='Tech lead'
+                dateRange='Aug 2020 - Present'
+                content={
+                  <p>Some content here</p>
+                } />
+              <OrganizationDetails
+                name='Raytheon'
+                logo={raytheonLogo}
+                link='https://www.raytheon.co.uk/'
+                title='Senior Software Engineer'
+                dateRange='Sep 2018 - Aug 2020'
+                content={
+                  <p>Some content here</p>
+                } />
+              <OrganizationDetails
+                name='Zen Internet'
+                logo={zenInternetLogo}
+                link='https://www.zen.co.uk/'
+                title='Systems Developer'
+                dateRange='Apr 2016 - Sept 2018'
+                content={
+                  <p>Some content here</p>
+                } />
+              <OrganizationDetails
+                name='Swinton Insurance'
+                logo={swintonLogo}
+                link='https://www.swinton.co.uk/'
+                title='Junior C# Developer'
+                dateRange='June 2013 - Apr 2016'
+                content={
+                  <p>Some content here</p>
+                } />
+              <OrganizationDetails
+                name='Parker Sandfords'
+                logo={parkerSandfordLogo}
+                title='Junior Developer'
+                link='https://uk.linkedin.com/company/parker-sandford'
+                dateRange='Oct 2012 - June 2013'
+                content={
+                  <p>Some content here</p>
+                } />
+            </div>
+            <h3>Education</h3>
+            <div className='companiesList'>
+              <OrganizationDetails
+                name='University of Central Lancashire'
+                logo={uclanLogo}
+                link='https://www.uclan.ac.uk/'
+                title='Bsc Honours Computing'
+                dateRange=''
+                content={
+                  <p>1st Class Honours</p>
+                } />
+              <OrganizationDetails
+                name='St John Fisher Catholic High School'
+                logo={johnFisherLogo}
+                link='https://www.sjfhs.co.uk/'
+                title='Student'
+                dateRange=''
+                content={
+                  <ul>
+                    <li>English Literature - A</li>
+                    <li>English Language - B</li>
+                    <li>Maths - C</li>
+                  </ul>
+                } />
+            </div>
+          </div>
+        } />
         <ContentSection title='Rates & Contact' id='ratesandcontact' />
         <ContentSection title='CV' id='cv' content={<div>
-          <a href={process.env.PUBLIC_URL + "/dummy.pdf"} target='_blank'>My CV</a>
+          <a href={process.env.PUBLIC_URL + "/dummy.pdf"} target='_blank' rel="noreferrer">My CV</a>
         </div>} />
       </section>
       <Footer />
