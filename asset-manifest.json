@@ -1,15 +1,22 @@
 {
   "files": {
-    "main.css": "/static/css/main.1f5c4df0.css",
-    "main.js": "/static/js/main.d063cf96.js",
+    "main.css": "/static/css/main.0bc72fc0.css",
+    "main.js": "/static/js/main.4f475ea1.js",
     "static/js/787.6568e1bc.chunk.js": "/static/js/787.6568e1bc.chunk.js",
+    "static/media/presentation.png": "/static/media/presentation.580ebed65f9f5505964a.png",
+    "static/media/zen_internet.png": "/static/media/zen_internet.c77d763b2a17ccf31f44.png",
+    "static/media/openmoney.svg": "/static/media/openmoney.ae6ec44876ec47875d3630ffb31818dc.svg",
+    "static/media/john_fisher.png": "/static/media/john_fisher.6a42ff087c03c51c85d4.png",
+    "static/media/uclan.svg": "/static/media/uclan.45c5de8259402bbc953cbb0c453cc452.svg",
+    "static/media/parker_sandford.jpg": "/static/media/parker_sandford.3a795ac7876999dd3724.jpg",
+    "static/media/swinton.svg": "/static/media/swinton.930139666fa1516be33864bb327f0038.svg",
     "index.html": "/index.html",
-    "main.1f5c4df0.css.map": "/static/css/main.1f5c4df0.css.map",
-    "main.d063cf96.js.map": "/static/js/main.d063cf96.js.map",
+    "main.0bc72fc0.css.map": "/static/css/main.0bc72fc0.css.map",
+    "main.4f475ea1.js.map": "/static/js/main.4f475ea1.js.map",
     "787.6568e1bc.chunk.js.map": "/static/js/787.6568e1bc.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1f5c4df0.css",
-    "static/js/main.d063cf96.js"
+    "static/css/main.0bc72fc0.css",
+    "static/js/main.4f475ea1.js"
   ]
 }
