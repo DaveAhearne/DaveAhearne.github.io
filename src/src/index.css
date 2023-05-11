@@ -140,6 +140,11 @@ i>p {
   align-items: center;
 }
 
+.stacklists{
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .companyDetails {
   display: flex;
   flex-direction: column;

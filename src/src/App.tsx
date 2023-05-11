@@ -76,7 +76,25 @@ function App() {
                 title='Tech lead'
                 dateRange='Aug 2020 - Present'
                 content={
-                  <p>Some content here</p>
+                  <div>
+                    <p>Used a number of different technologies</p>
+                   
+
+                    <p>Worked with stakeholders, built new features, led projects & designed architecture</p>
+                    <p>Looked after all the existing systems and BAU, did monitoring, alterting and incident response</p>
+                    <p>Did all the hiring and training of new developers</p>
+                    <p>Turned around the team from originally using waterfall to agile over a 6 month period including changing the release process to use agile and CI/CD</p>
+                    <div className='stackLists'>
+                      <ul>
+                        <li>.Net</li>
+                        <li>.Net</li>
+                      </ul>
+                      <ul>
+                        <li>.Net</li>
+                        <li>.Net</li>
+                      </ul>
+                    </div>
+                  </div>
                 } />
               <OrganizationDetails
                 name='Raytheon'
