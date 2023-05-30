@@ -18,7 +18,7 @@ function App() {
 
   return (
     <main>
-      <TitleBar id='title' />
+      <TitleBar id='title' openToWork={false} />
       <section>
         <ContentSection title='About Me' id='aboutme' content={<div>
           <img src={presentation} className='border' alt='David AHearne performing presentation' />
@@ -78,20 +78,21 @@ function App() {
                 content={
                   <div>
                     <p>Used a number of different technologies</p>
-                   
 
                     <p>Worked with stakeholders, built new features, led projects & designed architecture</p>
                     <p>Looked after all the existing systems and BAU, did monitoring, alterting and incident response</p>
                     <p>Did all the hiring and training of new developers</p>
                     <p>Turned around the team from originally using waterfall to agile over a 6 month period including changing the release process to use agile and CI/CD</p>
-                    <div className='stackLists'>
+                    <div className='technologyStacked'>
                       <ul>
-                        <li>.Net</li>
-                        <li>.Net</li>
+                        <li>Tech Amadillo</li>
+                        <li>Tech Badger Asparagus</li>
+                        <li>Tech Pidgeon</li>
                       </ul>
                       <ul>
-                        <li>.Net</li>
-                        <li>.Net</li>
+                        <li>Orange Lemon</li>
+                        <li>Apple</li>
+                        <li>Pear Watermelon</li>
                       </ul>
                     </div>
                   </div>
@@ -103,7 +104,23 @@ function App() {
                 title='Senior Software Engineer'
                 dateRange='Sep 2018 - Aug 2020'
                 content={
-                  <p>Some content here</p>
+                  <div>
+                    <p>We need a paradigm shift staff engagement, and bench mark, and horsehead offer, yet mumbo jumbo. Come up with something buzzworthy big boy pants, eat our own dog food, window-licker</p>
+                    <p>Golden goose it's not hard guys, and action item, we need to get the vernacular right, but value-added</p>
+                    <p>We need to socialize the comms with the wider stakeholder community (let's not try to) boil the ocean (here/there/everywhere) disband the squad but rehydrate as needed, so single wringable neck, or move the needle.</p>
+                    <div className='technologyStacked'>
+                      <ul>
+                        <li>Tech Amadillo</li>
+                        <li>Tech Badger Asparagus</li>
+                        <li>Tech Pidgeon</li>
+                      </ul>
+                      <ul>
+                        <li>Orange Lemon</li>
+                        <li>Apple</li>
+                        <li>Pear Watermelon</li>
+                      </ul>
+                    </div>
+                  </div>
                 } />
               <OrganizationDetails
                 name='Zen Internet'
@@ -112,7 +129,23 @@ function App() {
                 title='Systems Developer'
                 dateRange='Apr 2016 - Sept 2018'
                 content={
-                  <p>Some content here</p>
+                  <div>
+                    <p>I don't want to drain the whole swamp, i just want to shoot some alligators product launch sea change loop back, yet ping me, for we need to touch base off-line before we fire the new ux experience. Productize win-win</p>
+                    <p>Disband the squad but rehydrate as needed. Roll back strategy. Cross functional teams enable out of the box brainstorming. Nail it down move the needle collaboration through advanced technlogy. </p>
+                    <p>We need evergreen content ramp up let me know if you need me to crack any skulls, but rock Star/Ninja. Globalize. That's mint, well done. No need to talk to users, just base it on the space calculator</p>
+                    <div className='technologyStacked'>
+                      <ul>
+                        <li>Tech Amadillo</li>
+                        <li>Tech Badger Asparagus</li>
+                        <li>Tech Pidgeon</li>
+                      </ul>
+                      <ul>
+                        <li>Orange Lemon</li>
+                        <li>Apple</li>
+                        <li>Pear Watermelon</li>
+                      </ul>
+                    </div>
+                  </div>
                 } />
               <OrganizationDetails
                 name='Swinton Insurance'
@@ -121,7 +154,22 @@ function App() {
                 title='Junior C# Developer'
                 dateRange='June 2013 - Apr 2016'
                 content={
-                  <p>Some content here</p>
+                  <div>
+                    <p>Work horsehead offer. Future-proof i have a hard stop in an hour and half, or UI both the angel on my left shoulder and the devil on my right are eager to go to the next board meeting and say we're ditching the business model, and face time value prop, so can I just chime in on that one.</p>
+                    <p>That ipo will be a game-changer get in the driver's seat, or thought shower creativity requires you to murder your children. Deploy to production i know you're busy scope creep, nor close the loop performance review</p>
+                    <div className='technologyStacked'>
+                      <ul>
+                        <li>Tech Amadillo</li>
+                        <li>Tech Badger Asparagus</li>
+                        <li>Tech Pidgeon</li>
+                      </ul>
+                      <ul>
+                        <li>Orange Lemon</li>
+                        <li>Apple</li>
+                        <li>Pear Watermelon</li>
+                      </ul>
+                    </div>
+                  </div>
                 } />
               <OrganizationDetails
                 name='Parker Sandfords'
@@ -130,7 +178,22 @@ function App() {
                 link='https://uk.linkedin.com/company/parker-sandford'
                 dateRange='Oct 2012 - June 2013'
                 content={
-                  <p>Some content here</p>
+                  <div>
+                  <p>If you want to motivate these clowns, try less carrot and more stick waste of resources, or quantity idea shower, so on this journey unlock meaningful moments of relaxation. High-level cloud native container based, so it's not hard guys, or all hands on deck, vec land it in region</p>
+                  <p>What's the status on the deliverables for eow?. Vertical integration deploy to production. Our competitors are jumping the shark high-level, so ladder up / ladder back to the strategy</p>
+                  <div className='technologyStacked'>
+                    <ul>
+                      <li>Tech Amadillo</li>
+                      <li>Tech Badger Asparagus</li>
+                      <li>Tech Pidgeon</li>
+                    </ul>
+                    <ul>
+                      <li>Orange Lemon</li>
+                      <li>Apple</li>
+                      <li>Pear Watermelon</li>
+                    </ul>
+                  </div>
+                </div>
                 } />
             </div>
             <h3>Education</h3>
@@ -160,9 +223,15 @@ function App() {
             </div>
           </div>
         } />
-        <ContentSection title='Rates & Contact' id='ratesandcontact' />
-        <ContentSection title='CV' id='cv' content={<div>
-          <a href={process.env.PUBLIC_URL + "/dummy.pdf"} target='_blank' rel="noreferrer">My CV</a>
+        <ContentSection title='Rates & Contact' id='ratesandcontact' content ={
+          <div>
+            <p>For information regarding my rates, please get in contact at doesnotexist@doesnotexist.com</p>
+          </div>
+        } />
+        <ContentSection title='CV' id='cv' content={
+        <div>
+          <p>You can find a copy of my CV <a href={process.env.PUBLIC_URL + "/dummy.pdf"} target='_blank' rel="noreferrer">here</a></p>
+          <p>If you require references please contact me</p>
         </div>} />
       </section>
       <Footer />

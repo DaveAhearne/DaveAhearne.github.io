@@ -9,7 +9,7 @@ function WorkStatus(props: IWorkStatusProps) {
     const { Navigate, NavigationLink } = useNavigation();
     const { openToWork } = props;
 
-    const message = openToWork ? "Currently available to work!" : "Not currently available to work, but hopefully will be soon!"
+    const message = openToWork ? "Currently available to work!" : "Currently under contract, but contact me anyway!"
 
     return (
         <div className='workStatus'>

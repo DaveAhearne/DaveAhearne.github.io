@@ -140,7 +140,7 @@ i>p {
   align-items: center;
 }
 
-.stacklists{
+.technologyStacked{
   display: flex;
   justify-content: space-evenly;
 }
@@ -184,11 +184,11 @@ i>p {
 }
 
 .workStatus > .open {
-  color: green;
+  color: #53a853;
 }
 
 .workStatus > .closed {
-  color: red;
+  color: #d86111;
 }
 
 .bold {
