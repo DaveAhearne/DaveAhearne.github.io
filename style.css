@@ -1,0 +1,119 @@
+:root {
+    --font-size: 100%;
+    --line-height: 1.5;
+    --font-family: "Merriweather", serif;
+    --primary-color: #3A4145;
+    --secondary-color: #fff8f5;
+}
+
+@media (min-width: 576px) {
+    :root {
+        --font-size: 106.25%;
+    }
+}
+
+@media (min-width: 768px) {
+    :root {
+        --font-size: 112.5%;
+    }
+}
+
+@media (min-width: 1024px) {
+    :root {
+        --font-size: 118.75%;
+    }
+}
+
+@media (min-width: 1280px) {
+    :root {
+        --font-size: 125%;
+    }
+}
+
+@media (min-width: 1536px) {
+    :root {
+        --font-size: 131.25%;
+    }
+}
+
+body {
+    font-family: var(--font-family);
+    letter-spacing: 0.01rem;
+    font-size: 1.8rem;
+    line-height: 1.75em;
+    color: var(--primary-color);
+    background-color: var(--secondary-color);
+    min-height: 100svh;
+
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+article {
+    width: 85%;
+    max-width: 900px;
+}
+
+small {
+    --font-size: 0.875em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    --font-weight: 700;
+}
+
+h1 {
+    --font-size: 2rem;
+    --line-height: 1.125;
+    --typography-spacing-top: 3rem;
+}
+
+h2 {
+    --font-size: 1.75rem;
+    --line-height: 1.15;
+    --typography-spacing-top: 2.625rem;
+}
+
+h3 {
+    --font-size: 1.5rem;
+    --line-height: 1.175;
+    --typography-spacing-top: 2.25rem;
+}
+
+h4 {
+    --font-size: 1.25rem;
+    --line-height: 1.2;
+    --typography-spacing-top: 1.874rem;
+}
+
+h5 {
+    --font-size: 1.125rem;
+    --line-height: 1.225;
+    --typography-spacing-top: 1.6875rem;
+}
+
+h6 {
+    --font-size: 1rem;
+    --line-height: 1.25;
+    --typography-spacing-top: 1.5rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    margin-bottom: var(--typography-spacing-vertical);
+    color: var(--color);
+    font-weight: var(--font-weight);
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+    font-family: var(--font-family);
+}
