@@ -8,56 +8,163 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- DEV ONLY, REMOVE IN PROD -->
-    <script type="text/javascript" src="https://livejs.com/live.js"></script>
+    <!-- <script type="text/javascript" src="https://livejs.com/live.js"></script> -->
     <!-- END OF DEV ONLY SECTION -->
 
     <link rel="stylesheet" type="text/css"
         href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
     <title>Covet Blog</title>
+
+    <script>hljs.highlightAll();</script>
 </head>
 
 <body>
-    <h1>Hello world!</h1>
-    <article>
-        <h2>Introduction</h2>
-        <h3>Overview of APIs</h3>
-        <p>
-            In the modern software development landscape, Application Programming Interfaces (APIs) are the building
-            blocks of nearly every application. They allow different systems to communicate, enabling developers to
-            create seamless integrations, access third-party services, and expose their own services for consumption.
-            Whether you’re using a payment gateway, integrating with a weather service, or building a microservice
-            architecture, APIs are the backbone of these interactions.
+    <div id="site-wrappper">
+        <header>
+            <h1>Covet Technical Blog</h1>
+            <nav>
+                <small>
+                    <a href="https://www.linkedin.com/in/david-ahearne-767614b3/">LinkedIn</a>|
+                    <a href="https://github.com/DaveAhearne">Github</a>|
+                    <a href="https://covet.digital/">My Site</a>
+                </small>
+            </nav>
+        </header>
+        <div id="content-wrapper">
+            <aside class="sidebar">
+                <img class="profile-image" src="profile.jpg" alt="">
+                <section class="publisher">
+                    <small>by David A'Hearne</small>
+                </section>
+            </aside>
+            <main>
+                <article>
+                    <h2>Fake Placeholder Content: Exploring Python’s List Comprehension</h2>
+                    <p>
+                        Welcome to this fake placeholder content blog post! In this article, we’ll take a look at one of
+                        Python’s most powerful features—list comprehension—and discuss how it can make your code more
+                        concise and readable. This content is entirely fake and not intended for production, but let’s
+                        dive
+                        into the concept.
+                    </p>
+                    <h3>What is List Comprehension?</h3>
+                    <p>
+                        List comprehension is a compact way to process and create lists in Python. It’s an elegant
+                        alternative to using loops for creating lists, and it can significantly reduce the number of
+                        lines
+                        in your code.
+                    </p>
+                    <pre><code>squares = [x ** 2 for x in range(10)]
+print(squares)</pre></code>
+                    <p>
+                        The output will be:
+                    </p>
+                    <pre><code>[0, 1, 4, 9, 16, 25, 36, 49, 64, 81]</pre></code>
+                    <p>
+                        In this fake placeholder content example, the list comprehension [x ** 2 for x in range(10)]
+                        generates a list of squares for the numbers 0 to 9.
+                    </p>
+                    <h3>Benefits of List Comprehension</h3>
+                    <p>
+                        Here’s why you should consider using list comprehension in Python:
 
-            APIs are essentially interfaces that allow two systems to exchange information and functionality. But
-            creating a well-designed, reliable, and secure API requires more than just writing code that works. Proper
-            API design is critical for long-term maintainability, performance, scalability, and security. The challenge
-            lies in making APIs intuitive, consistent, and easy to use, while also making sure they meet the security,
-            performance, and functional requirements of modern software applications.
-            The Importance of Good API Design
+                    <ul>
+                        <li>
+                            Conciseness: List comprehensions reduce the code length. Instead of writing a full loop, you
+                            can create the list in a single line.
+                        </li>
+                        <li>
+                            Clarity: For simple operations, list comprehensions can make your code easier to understand
+                            at a
+                            glance.
+                        </li>
+                        <li>
+                            Performance: List comprehension is faster than traditional loops because it’s optimized for
+                            performance under the hood.
+                        </li>
+                    </ul>
+                    </p>
 
-            Good API design is about more than just functionality—it’s about making the API usable, extensible, and
-            adaptable. APIs are often exposed to external developers, and the ease of use can dramatically affect their
-            adoption and the quality of the applications they enable. Inconsistent naming conventions, poor error
-            handling, lack of proper documentation, and security vulnerabilities can turn a potentially valuable API
-            into a frustrating, unreliable tool.
+                    <h3>
+                        Fake Placeholder Content Example: Simple List Comprehension with Conditionals
+                    </h3>
 
-            APIs are also critical when it comes to performance and scalability. Well-designed APIs can ensure that your
-            application runs smoothly under heavy traffic, scaling efficiently with little overhead. Conversely, poor
-            API design can introduce unnecessary latency, making even the most robust applications sluggish or
-            unreliable.
-        </p>
-        <h3>Goals of This Post</h3>
-        <p>In this blog post, we will dive into the intricacies of API design. We’ll explore the various types of APIs,
-            outline the principles and best practices that should guide your design decisions, and highlight the
-            security measures you should consider to protect both your API and its users. Additionally, we’ll look at
-            how to test and document your API to ensure it’s functional, reliable, and easy to integrate with other
-            services.
+                    <p>
+                        You can also include conditionals within your list comprehension. For instance, if you wanted to
+                        only square even numbers from a given range:
+                    </p>
+                    <pre><code>even_squares = [x ** 2 for x in range(10) if x % 2 == 0]
+print(even_squares)</pre></code>
+                    <p>
+                        The output will be:
+                    </p>
+                    <pre><code>[0, 4, 16, 36, 64]</pre></code>
+                    <p>In this fake placeholder content example, the list comprehension checks if each number is even
+                        before squaring it. If the condition x % 2 == 0 is met, the square of x is added to the list.
+                    </p>
 
-            By the end of this post, you’ll have a comprehensive understanding of how to create APIs that are not only
-            functional but also well-architected, secure, and scalable—ensuring that your services can grow alongside
-            your application needs.</p>
-    </article>
+                    <h3>Nested List Comprehension: Fake Placeholder Content</h3>
+
+                    <p>List comprehension can be nested to handle more complex structures like lists of lists. Below is
+                        a fake placeholder content example of how you can flatten a 2D list:</p>
+                    <pre><code>matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+flattened = [element for row in matrix for element in row]
+print(flattened)</pre></code>
+                    <p>
+                        The output will be:
+                    </p>
+
+                    <pre><code>[1, 2, 3, 4, 5, 6, 7, 8, 9]</code></pre>
+
+                    <p>In this fake placeholder content example, the nested list comprehension iterates over each row in
+                        the matrix and then over each element in the row, effectively flattening the 2D list into a 1D
+                        list.</p>
+
+                    <h3>Performance Considerations</h3>
+
+                    <p>While list comprehension is generally more efficient than traditional loops, it’s important to
+                        note that readability may suffer for very complex expressions. When your list comprehension
+                        becomes hard to understand, it might be better to revert to a traditional for loop.</p>
+
+                    <pre><code>complex_comprehension = [x ** 2 for x in range(100) if x % 2 == 0 if x > 10]
+print(complex_comprehension)</code></pre>
+
+                    <h3>
+                        When to Use List Comprehension
+                    </h3>
+
+                    <p>Short, simple expressions: When creating lists from a few lines of logic.
+                        Clear conditional filtering: When you want to filter data while creating the list.
+                        Avoiding nested loops: Use list comprehension instead of deeply nested for loops when possible.
+                    </p>
+
+                    <h3>Conclusion</h3>
+
+                    <p>In this fake placeholder content article, we explored how Python’s list comprehension can make
+                        your
+                        code more concise, readable, and efficient. While this is just a fake placeholder content blog
+                        post,
+                        the principles discussed here are incredibly useful when writing real code. Remember, it’s all
+                        about
+                        balance: use list comprehension where it improves clarity, but don’t let it overcomplicate your
+                        logic.</p>
+
+                    <p> Happy coding (in the world of fake placeholder content)!
+                    </p>
+                </article>
+                <footer>
+                    <small>Covet Digital | David A'Hearne</small>
+                    <small>Empowering Your Digital Growth</small>
+                    <small>© 2024 Covet Digital | All Rights Reserved.</small>
+                </footer>
+            </main>
+        </div>
+
+    </div>
 </body>
 
 </html>

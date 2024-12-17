@@ -1,119 +1,167 @@
 :root {
-    --font-size: 100%;
-    --line-height: 1.5;
-    --font-family: "Merriweather", serif;
+    font-size: 62.5%;
+    font-family: "Merriweather", serif;
+    letter-spacing: 0.01rem;
     --primary-color: #3A4145;
     --secondary-color: #fff8f5;
+    --tertiary-color: #ded8d5;
 }
 
 @media (min-width: 576px) {
     :root {
-        --font-size: 106.25%;
+        font-size: 106.25%;
     }
 }
 
 @media (min-width: 768px) {
     :root {
-        --font-size: 112.5%;
+        font-size: 112.5%;
     }
 }
 
 @media (min-width: 1024px) {
     :root {
-        --font-size: 118.75%;
+        font-size: 118.75%;
     }
 }
 
 @media (min-width: 1280px) {
     :root {
-        --font-size: 125%;
+        font-size: 125%;
     }
 }
 
 @media (min-width: 1536px) {
     :root {
-        --font-size: 131.25%;
+        font-size: 131.25%;
     }
 }
 
 body {
-    font-family: var(--font-family);
-    letter-spacing: 0.01rem;
-    font-size: 1.8rem;
-    line-height: 1.75em;
     color: var(--primary-color);
     background-color: var(--secondary-color);
     min-height: 100svh;
 
-    max-width: 1000px;
-    margin: 0 auto;
+    line-height: 1.75em;
+    font-size: 1rem;
+}
+
+h1 {
+    font-size: 3rem;
+    line-height: 1;
+}
+
+h2 {
+    font-size: 2.125rem;
+    line-height: 1.25;
+}
+
+h3 {
+    font-size: 1.5rem;
+    line-height: 1.175;
+}
+
+h4 {
+    font-size: 1.25rem;
+    line-height: 1.2;
+}
+
+h5 {
+    font-size: 1.125rem;
+    line-height: 1.225;
+}
+
+h6 {
+    font-size: 1rem;
+    line-height: 1.25;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Open Sans", sans-serif;
+    color: var(--color);
+    font-weight: 700;
+    margin-bottom: 0.5rem
+}
+
+small {
+    font-size: 0.8em;
+    line-height: 1rem;
+}
+
+p {
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+}
+
+
+header {
+    height: 256px;
+    padding-left: 1rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--tertiary-color);
+}
+
+header>h1 {
+    margin-bottom: 0;
+}
+
+nav {
+    line-height: 1.5rem;
 }
 
 article {
     width: 85%;
     max-width: 900px;
+    margin-left: 5%;
 }
 
-small {
-    --font-size: 0.875em;
+pre>code {
+    padding: 1rem;
+    font-size: 1rem;
+    font-family: monospace;
+    display: block;
+    margin-bottom: 1.5rem;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    --font-weight: 700;
+footer {
+    margin-left: 5%;
+    margin-bottom: 1rem;
 }
 
-h1 {
-    --font-size: 2rem;
-    --line-height: 1.125;
-    --typography-spacing-top: 3rem;
+footer>small {
+    display: block;
+    line-height: 1.5rem;
+    font-size: 0.6em;
 }
 
-h2 {
-    --font-size: 1.75rem;
-    --line-height: 1.15;
-    --typography-spacing-top: 2.625rem;
+.sidebar {
+    width: 20%;
+    font-size: 1.4rem;
+    margin-top: 40px;
+    margin-left: 5%
 }
 
-h3 {
-    --font-size: 1.5rem;
-    --line-height: 1.175;
-    --typography-spacing-top: 2.25rem;
+.profile-image {
+    border-radius: 100%;
+    width: 118px;
 }
 
-h4 {
-    --font-size: 1.25rem;
-    --line-height: 1.2;
-    --typography-spacing-top: 1.874rem;
+#content-wrapper {
+    display: flex;
+    margin-top: 2rem;
 }
 
-h5 {
-    --font-size: 1.125rem;
-    --line-height: 1.225;
-    --typography-spacing-top: 1.6875rem;
-}
-
-h6 {
-    --font-size: 1rem;
-    --line-height: 1.25;
-    --typography-spacing-top: 1.5rem;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    margin-top: 0;
-    margin-bottom: var(--typography-spacing-vertical);
-    color: var(--color);
-    font-weight: var(--font-weight);
-    font-size: var(--font-size);
-    line-height: var(--line-height);
-    font-family: var(--font-family);
+#site-wrappper {
+    max-width: 1000px;
+    margin: 0 auto;
 }
