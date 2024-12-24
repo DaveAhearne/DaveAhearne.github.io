@@ -8,51 +8,6 @@
     --tertiary-color: #ded8d5;
 }
 
-
-/* RESPONSIVE MEDIA QUERIES */
-/* Mobiles */
-@media (min-width: 576px) {
-    :root {
-        font-size: 106.25%;
-    }
-}
-
-/* Tablets */
-@media (min-width: 768px) {
-    :root {
-        font-size: 112.5%;
-    }
-
-    #site-wrappper {
-        min-height: 100svh;
-
-        display: grid;
-        grid-template-columns: 1fr 3fr;
-        grid-template-rows: auto 1fr auto;
-    }
-}
-
-/* Laptops */
-@media (min-width: 1024px) {
-    :root {
-        font-size: 118.75%;
-    }
-}
-
-/* Desktops */
-@media (min-width: 1280px) {
-    :root {
-        font-size: 125%;
-    }
-}
-
-/* Extra wide screens */
-@media (min-width: 1536px) {
-    :root {
-        font-size: 131.25%;
-    }
-}
-
 /* BEGIN MAIN SECTION */
 
 body {
@@ -119,13 +74,13 @@ p {
     margin-bottom: 1rem;
 }
 
-ul{
+ul {
     list-style-type: disc;
     margin-left: 3rem;
     margin-bottom: 1rem;
 }
 
-ul>li{
+ul>li {
     margin-bottom: 0.5rem;
 }
 
@@ -138,7 +93,7 @@ strong {
 }
 
 header {
-    height: 256px;
+    height: 192px;
     padding: 0 1rem 0 1rem;
 
     grid-column-start: 1;
@@ -161,7 +116,7 @@ nav {
 }
 
 
-nav>a{
+nav>a {
     padding: 0 1rem 0 1rem;
 }
 
@@ -190,7 +145,7 @@ pre>code {
     margin-bottom: 1.5rem;
 }
 
-blockquote{
+blockquote {
     display: block;
     margin-bottom: 1rem;
     padding: 1rem;
@@ -200,11 +155,11 @@ blockquote{
     border-inline-end: none;
 }
 
-blockquote>footer{
+blockquote>footer {
     margin: 0.5rem 0 0 0;
 }
 
-cite{
+cite {
     font-style: italic;
 }
 
@@ -224,7 +179,7 @@ footer>small {
     font-size: 0.6em;
 }
 
-img{
+img {
     max-width: 100%;
 }
 
@@ -258,4 +213,55 @@ a>h1 {
     padding-top: 0.5rem;
     display: block;
     color: var(--tertiary-color);
+}
+
+
+
+
+/* RESPONSIVE MEDIA QUERIES */
+/* Mobiles */
+@media (min-width: 576px) {
+    :root {
+        font-size: 106.25%;
+    }
+}
+
+/* Tablets */
+@media (min-width: 768px) {
+    :root {
+        font-size: 112.5%;
+    }
+
+    #site-wrappper {
+        min-height: 100svh;
+
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+        grid-template-rows: auto 1fr auto;
+    }
+
+    header {
+        height: 256px;
+    }
+}
+
+/* Laptops */
+@media (min-width: 1024px) {
+    :root {
+        font-size: 118.75%;
+    }
+}
+
+/* Desktops */
+@media (min-width: 1280px) {
+    :root {
+        font-size: 125%;
+    }
+}
+
+/* Extra wide screens */
+@media (min-width: 1536px) {
+    :root {
+        font-size: 131.25%;
+    }
 }
