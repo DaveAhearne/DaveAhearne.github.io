@@ -160,6 +160,16 @@ nav {
     line-height: 1.5rem;
 }
 
+
+nav>a{
+    padding: 0 1rem 0 1rem;
+}
+
+nav>a:not(:last-child) {
+    border-right: 1px solid gray;
+}
+
+
 main {
     margin-left: 2rem;
 }
@@ -179,6 +189,25 @@ pre>code {
     display: block;
     margin-bottom: 1.5rem;
 }
+
+blockquote{
+    display: block;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border-right: none;
+    border-left: .25rem solid var(--tertiary-color);
+    border-inline-start: .25rem solid var(--tertiary-color);
+    border-inline-end: none;
+}
+
+blockquote>footer{
+    margin: 0.5rem 0 0 0;
+}
+
+cite{
+    font-style: italic;
+}
+
 
 footer {
     grid-row: 3;
