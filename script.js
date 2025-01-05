@@ -3,5 +3,5 @@ window.onload = function () {
         hljs.highlightAll();
     }
 
-    document.getElementById("footer_year").innerHTML = new Date(Date.now()).getFullYear() +1;
+    document.getElementById("footer_year").innerHTML = new Date(Date.now()).getFullYear();
 };
