@@ -107,6 +107,12 @@ em {
   font-weight: bold
 }
 
+.references {
+  font-size: 1px;
+  color: var(--color-bg);
+  user-select: none;
+}
+
 .quote {
   max-width: 65ch;
   margin: 2rem 0;
