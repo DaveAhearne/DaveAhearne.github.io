@@ -1,63 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="reset.css">
-    <link rel="stylesheet" href="style.css">
-
-    <!-- DEV ONLY, REMOVE IN PROD -->
-    <script async type="text/javascript" src="https://livejs.com/live.js"></script>
-    <!-- END OF DEV ONLY SECTION -->
-
-    <link rel="stylesheet" type="text/css"
-        href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css">
-    <link rel="icon" type="image/x-icon" href="./favicon.ico">
-    <script async src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="script.js"></script>
-
-    <title>Covet:Digital | Blog</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Blog</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+      color: #333;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+    header {
+      margin-bottom: 2rem;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin: 0 0 0.5rem 0;
+    }
+    p.subtitle {
+      font-size: 1.1rem;
+      color: #666;
+    }
+    .post-list {
+      list-style: none;
+      padding: 0;
+    }
+    .post-list li {
+      margin-bottom: 1.25rem;
+    }
+    .post-list a {
+      text-decoration: none;
+      font-size: 1.1rem;
+      color: #0066cc;
+    }
+    .post-list a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #888;
+    }
+  </style>
 </head>
-
 <body>
-    <div id="site-wrappper">
-        <header>
-            <a href="index.html">
-                <h1>Covet:Digital Blog</h1>
-            </a>
-            <nav>
-                <a href="https://www.linkedin.com/in/david-ahearne-767614b3/">LinkedIn</a>
-                <a href="https://github.com/DaveAhearne">Github</a>
-                <a href="https://covet.digital/">Main Website</a>
-            </nav>
-        </header>
-        <aside class="sidebar">
-            <img class="profile-image" src="profile.jpg" alt="">
-            <section class="publisher">
-                <small>by David A'Hearne</small>
-            </section>
-        </aside>
-        <main>
-            <article>
-                <a href="articles/2025_01_05/Fear_and_software_development.html" class="article-link">
-                    <h2>Fear, software development & the tutorial trap.</h2>
-                </a>
-                <small>
-                    Going through the problems of fear, procrastination and how people attempt to deal with those
-                    feelings. Covering how to identify what is happening and finding a path forward.
-                </small>
-                <time datetime="2025-01-05T16:48:00" class="article-publish-date">5 January 2025</time>
-            </article>
-        </main>
-        <footer>
-            <small>Covet:Digital | David A'Hearne</small>
-            <small>Empowering Your Digital Growth</small>
-            <small>© <span id="footer_year"></span> Covet:Digital | All Rights Reserved.</small>
-        </footer>
-    </div>
-</body>
+  <div class="container">
+    <header>
+      <h1>My Blog</h1>
+      <p class="subtitle">Notes on programming, systems, and things I’m learning.</p>
+    </header>
 
+    <main>
+      <ul class="post-list">
+        <li><a href="#">Why I Started This Blog</a></li>
+        <li><a href="#">Thoughts on Databases and Simplicity</a></li>
+        <li><a href="#">Learning Kafka the Hard Way</a></li>
+      </ul>
+    </main>
+
+    <footer>
+      <p>© 2026 · Written by me</p>
+    </footer>
+  </div>
+</body>
 </html>
