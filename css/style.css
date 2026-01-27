@@ -4,6 +4,7 @@
   --color-accent: #7ee787;
   --color-accent-muted: #9ae6b4;
   --color-link: #1fdf64;
+  --color-link-disabled: #3a5f4b;
 }
 
 body {
@@ -142,4 +143,9 @@ em {
 
 .back-link:hover {
   opacity: 1;
+}
+
+.disabled-link {
+  pointer-events: none;
+  color: var(--color-link-disabled);
 }
