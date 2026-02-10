@@ -49,6 +49,13 @@ h2 {
   letter-spacing: 0.02em;
 }
 
+h3 {
+  font-size: 1.3rem;
+  margin: 1.5rem 0 1rem;
+  color: var(--color-accent);
+  letter-spacing: 0.02em;
+}
+
 a {
   color: var(--color-accent);
 }
