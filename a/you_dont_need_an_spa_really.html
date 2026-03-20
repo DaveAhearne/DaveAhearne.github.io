@@ -3,24 +3,61 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/style.css">
   <title>Covet::Blog</title>
 </head>
 <body>
+  <nav class="nav">
+    <div class="nav__logo">
+      <a href="https://covet.digital" class="nav__logo__brand">Covet</a>
+      <span class="nav__logo__sep">/</span>
+      <a href="/" class="nav__logo__section">Blog</a>
+    </div>
+    <div class="nav__links">
+      <a href="https://covet.digital" class="nav__cta">Get early access</a>
+    </div>
+  </nav>
+
   <div class="container">
-    <header>
-      <h1><a href="/">Covet::Blog</a></h1>
-    </header>
-
     <main>
-        <a href="/" class="back-link">← Home</a>
         <h2>You don't need an SPA, really.</h2>
-        <p>[WIP]</p>
-    </main>
+        
+        <div class="author">
+          <div class="author__avatar">DA</div>
+          <span>Written by <a href="https://www.linkedin.com/in/david-ahearne-767614b3" target="_blank" rel="noopener">David A'Hearne</a>, founder of Covet</span>
+        </div>
 
-    <footer>
-      <p>© 2026 · Written by <a href="https://www.linkedin.com/in/david-ahearne-767614b3">David A'Hearne</a></p>
-    </footer>
+        <div class="cta-hard">
+          <p class="cta-hard__eyebrow">// what we're building</p>
+          <p class="cta-hard__heading">Covet is fixing the exact problem you just read about.</p>
+          <p class="cta-hard__body">Structured mutual qualification — candidates and companies matched on fit, not keyword density. No spray-and-pray. No ghosting. Rejections that actually tell you why.</p>
+          <a href="https://covet.digital" class="cta-hard__btn">Get early access</a>
+        </div>
+    </main>
   </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <span class="footer__logo">Covet</span>
+        <span class="footer__tagline">Hiring that rewards fit, not volume.</span>
+      </div>
+      <div class="footer__bottom">
+        <div class="footer__legal">
+          <span>Covet Digital Ltd</span>
+          <span>Registered in England &amp; Wales · Company No. <span style="font-family: 'DM Mono', monospace;">17086106</span></span>
+          <span>71-75 Shelton Street, Covent Garden, London, WC2H 9JQ</span>
+        </div>
+        <div class="footer__links">
+          <a href="https://covet.digital/privacy">Privacy</a>
+          <a href="https://covet.digital/terms">Terms</a>
+          <a href="mailto:hello@covet.digital">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

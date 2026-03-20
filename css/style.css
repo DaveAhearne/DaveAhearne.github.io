@@ -304,6 +304,45 @@ blockquote.quote cite {
   color: var(--color-link-hover);
 }
 
+
+/* ─── Author byline ───────────────────────────────────────────────────────── */
+.author {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 2.5rem;
+  font-size: 0.825rem;
+  color: var(--color-muted);
+}
+ 
+.author__avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "DM Mono", monospace;
+  font-size: 0.65rem;
+  color: var(--color-honey-deep);
+  flex-shrink: 0;
+}
+ 
+.author a {
+  color: var(--color-muted);
+  text-decoration: underline;
+  text-decoration-color: var(--color-divider);
+  text-underline-offset: 3px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+ 
+.author a:hover {
+  color: var(--color-text);
+  text-decoration-color: var(--color-muted);
+}
+
 /* ─── Inline code ─────────────────────────────────────────────────────────── */
 code {
   font-family: "DM Mono", "Fira Code", monospace;
