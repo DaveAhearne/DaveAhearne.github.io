@@ -23,19 +23,105 @@
 
   <div class="container">
     <main>
-        <h2>You don't need an SPA, really.</h2>
-        
-        <div class="author">
-          <div class="author__avatar">DA</div>
-          <span>Written by <a href="https://www.linkedin.com/in/david-ahearne-767614b3" target="_blank" rel="noopener">David A'Hearne</a>, founder of Covet</span>
-        </div>
+      <h2>You Don't Need an SPA, Really</h2>
+ 
+      <p>It's interesting that as engineers, people who genuinely love reasoning about systems, we are still surprisingly susceptible to a particular logical trap. It goes something like this:</p>
+ 
+      <ul>
+        <li>A large company has a very specific, complex problem</li>
+        <li>They build a tool to solve it and open source it</li>
+        <li>People adopt that tool assuming it must be the <em>right</em> way, and if they use it, they too will become that large company</li>
+      </ul>
+ 
+      <p>It's an understandable mistake, especially in an industry this fixated on new things and "best practices" (which are often just opinions that got popular). But the most important engineering question you can ask is a boring one: <em>is this the right tool for the job?</em></p>
+ 
+      <p>With that, let's talk about SPAs.</p>
+ 
+      <h3>Where did it all come from?</h3>
+ 
+      <p>A little history. Originally there was only raw JavaScript, and one of the big problems was that browser compatibility was <em>very</em> scattered. Different browsers implemented things differently, things broke constantly, and a lot of time was spent on hacks just to make basic interactions work consistently.</p>
+ 
+      <p>jQuery solved a lot of this. It was a unified layer you could drop into any page and <em>do things</em> reliably. It had its quirks, but it fixed enough problems that people started building far more complicated things on top of it. Server-side rendering via PHP handled the heavy lifting, but it was inherently static, so doing anything dynamic meant a full page reload, which people didn't want.</p>
+ 
+      <p>Around this time, JavaScript escaped the browser entirely. Node.js hit the scene along with proper templating engines: fast, lightweight, structured. We could finally build real server-rendered applications in JavaScript without the spaghetti of jQuery event handlers holding everything together.</p>
+ 
+      <h3>So what happened next?</h3>
+ 
+      <p>Angular, and a few years later, React.</p>
+ 
+      <p>Why? Application-level complexity. The big players had long since moved from websites to full blown interactive applications like Google Maps, Google Docs and Gmail. These products had enormous amounts of state to manage across the page, and templates were no longer sufficient. Angular gave the front end a proper application framework. React came later as a direct critique of Angular's two-way binding model. Facebook wanted something where state changes were predictable and traceable, partly driven by the need to manage infinite scroll and keep users on a single page indefinitely.</p>
+ 
+      <p>Both solved real problems at the companies that built them.</p>
+ 
+      <h3>The frenzy</h3>
+ 
+      <p>People <em>loved</em> these frameworks. Engineers begged to use them, made bold promises, and delivered on them. The front end finally felt like proper software development rather than visual hacks stapled onto HTML. Over time the skills became ubiquitous, and using anything else started to feel peculiar, like suggesting someone use CGI scripts in 2015.</p>
+ 
+      <h3>The hangover</h3>
+ 
+      <p>Much like Marlon Brando, SPAs got <em>big</em>.</p>
+ 
+      <p>The <code>node_modules</code> folder became a running joke: hundreds of megabytes for a web project, as large libraries depended on other large libraries, sometimes at conflicting versions, all of them needing to be bundled and shipped. Security compliance became a nightmare; the npm ecosystem was still maturing and the dependency graph was a <a href="https://www.ox.security/blog/npm-packages-compromised">spider's nest of potential issues</a>. The <a href="https://en.wikipedia.org/wiki/Npm_left-pad_incident">left-pad incident</a> became a cautionary tale about how fragile it all was.</p>
+ 
+      <p>The shipped JavaScript itself could easily reach 10MB or more before you'd added any of the analytics and tracking tools that are now industry standard. Advocates would correctly point out that this is only a first-load problem; once cached, navigating around is fast. But that first load hit the people most sensitive to load times the hardest: <em>first time users</em>, on slower connections, often on lower-end hardware.</p>
+ 
+      <h3>The Slow User Paradox</h3>
+ 
+      <p>Here's a pattern that should make you uncomfortable.</p>
+ 
+      <p>You've built something. Average load times look fine in your analytics. You're not worried. But what you're not seeing is the users who gave up before your page finished loading. They're not <em>in</em> your analytics, because they never loaded it. Your metrics look healthy because you've quietly filtered out everyone your product failed.</p>
+ 
+      <p>This is what Chris Zacharias discovered when he worked on YouTube's watch page. The page had ballooned to 1.2MB, and a colleague famously pointed out that entire Quake clones were being written in under 100KB and they had no excuse. Zacharias spent three days hand-optimising everything, swapped the Flash player for his newly-written HTML5 player, and got the page down to 98KB across just 14 requests. He called the project <em>Feather</em>.</p>
+ 
+      <p>After a week of data collection, the numbers were baffling. Average page load time had <em>increased</em>.</p>
+ 
+      <p>He was about to roll it back when a colleague noticed the geography. <a href="https://blog.chriszacharias.com/page-weight-matters">When plotted regionally, every single region showed faster load times under Feather</a>. The global average went up because an entirely new population of users across Southeast Asia, South America, Africa, and Siberia could now actually load YouTube at all. The 1.2MB page had been taking over twenty minutes to load in those places. Even at two minutes, Feather made watching a video a real possibility. Word spread, usage surged, and the aggregate metric masked what was actually a significant improvement for millions of people.</p>
+ 
+      <p>Entire populations had been invisibly excluded by page weight. They never complained. They just didn't show up.</p>
+ 
+      <p>If you want global reach, this matters.</p>
+ 
+      <h3>Everything old is new again</h3>
+ 
+      <p>So how did the industry respond to the first-load problem?</p>
+ 
+      <p>First, minification and code-splitting: bundling JavaScript into logical chunks and compressing what goes over the wire, so the initial payload is smaller. Better than nothing, but it adds build complexity and doesn't fundamentally change the model.</p>
+ 
+      <p>Second, moving rendering back to the server by pre-rendering pages server-side and hydrating them on the client, so users see something immediately rather than a blank screen while JS bootstraps. React Server Components took this further, running entire components on the server and sending only HTML to the client, with zero JavaScript for those components at all.</p>
+ 
+      <p>Is this sounding familiar yet?</p>
+ 
+      <p>We spent fifteen years moving rendering to the client, discovered the costs, and have spent the last five years carefully moving it back to the server. The wheel has turned.</p>
+ 
+      <h3>Lessons learned</h3>
+ 
+      <p>Most websites are <em>not</em> applications. They're content, forms, product pages, documentation. They don't have the state complexity that motivated React and Angular in the first place.</p>
+ 
+      <p>The browser itself has matured enormously. Native form validation, smooth CSS transitions, <code>fetch</code>, <code>IntersectionObserver</code>, custom elements. Things that required libraries a decade ago are now standard and consistent across every modern browser. The baseline you're building on is far stronger than it was.</p>
+ 
+      <p>Lighter means faster, more accessible, better SEO, and a smaller attack surface. These aren't soft benefits. They compound.</p>
+ 
+      <h3>What I'm doing about it</h3>
+ 
+      <p>The main thing I've changed is <em>reaching for lighter tools by default</em>. In particular, I really like <a href="https://htmx.org">HTMX</a>. The idea is simple: HTML already has a model for updating the page: links navigate, forms submit. HTMX just extends those natural controls to let any element make HTTP requests and swap parts of the page. You write server-rendered HTML, sprinkle in a few <code>hx-</code> attributes, and get 80% of the SPA experience at a fraction of the complexity and weight. There's no build step, no state management library, no hydration puzzle. The server stays in charge of what the page contains.</p>
+ 
+      <p>This blog is pure HTML and CSS. It loads fast, it's accessible, it has essentially no attack surface, and it works for anyone on any connection. That isn't a compromise, it's the whole point.</p>
+ 
+      <p>I'm not against SPAs. Google Docs should be an SPA. Figma should be an SPA. If you're building something with the complexity of a desktop application in the browser, use the tools designed for that complexity.</p>
+ 
+      <p>But if you're building a website, build a website.</p>
 
-        <div class="cta-hard">
-          <p class="cta-hard__eyebrow">// what we're building</p>
-          <p class="cta-hard__heading">Covet is fixing the exact problem you just read about.</p>
-          <p class="cta-hard__body">Structured mutual qualification — candidates and companies matched on fit, not keyword density. No spray-and-pray. No ghosting. Rejections that actually tell you why.</p>
-          <a href="https://covet.digital" class="cta-hard__btn">Get early access</a>
-        </div>
+      <div class="author">
+        <div class="author__avatar">DA</div>
+        <span>Written by <a href="https://www.linkedin.com/in/david-ahearne-767614b3" target="_blank" rel="noopener">David A'Hearne</a>, founder of Covet</span>
+      </div>
+
+      <div class="cta-hard">
+        <p class="cta-hard__eyebrow">// what we're building</p>
+        <p class="cta-hard__heading">Covet is fixing the exact problem you just read about.</p>
+        <p class="cta-hard__body">Structured mutual qualification: candidates and companies matched on fit, not keyword density. No spray-and-pray. No ghosting. Rejections that actually tell you why.</p>
+        <a href="https://covet.digital" class="cta-hard__btn">Get early access</a>
+      </div>
     </main>
   </div>
 
@@ -54,10 +140,6 @@
         <div class="footer__links">
           <a href="https://covet.digital/privacy">Privacy</a>
           <a href="https://covet.digital/terms">Terms</a>
-          <a href="mailto:hello@covet.digital">Contact</a>
+          <a href="/cdn-cgi/l/email-protection#38505d545457785b574e5d4c165c515f514c5954">Contact</a>
         </div>
       </div>
-    </div>
-  </footer>
-</body>
-</html>
