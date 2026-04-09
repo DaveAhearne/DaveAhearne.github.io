@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <title>The Last Language: Standing on the Shoulders of Giants - Covet Blog</title>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__logo">
+      <a href="https://covet.digital" class="nav__logo__brand">Covet</a>
+      <span class="nav__logo__sep">/</span>
+      <a href="/" class="nav__logo__section">Blog</a>
+    </div>
+    <div class="nav__links">
+      <a href="https://covet.digital" class="nav__cta">Get early access</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <main>
+      <a href="/" class="back-link">← Blog</a>
+
+      <h2>The Last Language You Can Read</h2>
+
+      <p>There's a motto I came across in high school that stuck with me: <em>standing on the shoulders of giants</em>. Progress isn't lone genius. It's accumulated effort, each generation inheriting the work of the last and pushing it slightly further forward. New languages get built because practitioners feel friction acutely enough to do something about it. The community argues, refines, and eventually something better wins.</p>
+
+      <p>I've been thinking about what happens when that process quietly stops working. Not through any single failure, but through the accumulation of pressures that each seem reasonable on their own.</p>
+
+      <h3>The noise problem</h3>
+
+      <p>Stack Overflow is largely dead. Not officially, not yet, but if you've spent any time there recently you'll know what I mean. The signal-to-noise ratio has collapsed. GitHub, meanwhile, is drowning in volume. Repositories multiply faster than anyone can meaningfully evaluate them, and the result is that finding something genuinely good has become an exercise in archaeology.</p>
+
+      <figure class="article-image">
+        <img src="../img/the_last_language_you_can_read/overflow.png" alt="Stack overflow monthly posts over time" class="full-width"/>
+        <figcaption>// Could also be BlockBuster sales too if you squint.</figcaption>
+      </figure>
+
+      <p>Neil Postman argued in <em>Amusing Ourselves to Death</em> that the real threat to culture wasn't Orwellian oppression from above, it was Huxleyan saturation from within. We don't need a boot on our necks if we're already too distracted to notice the problems that matter. I think something similar is happening in software. We haven't run out of code. We've run out of attention to evaluate it.</p>
+
+      <p>Richard Gabriel identified an early version of this dynamic in his 1989 essay "Worse is Better." His argument was that simpler, less correct systems tend to beat more elegant ones in the wild because they spread faster. They're easier to port, easier to adopt, easier to tolerate. The right thing loses to the "good enough" thing because the "good enough" thing has better network dynamics.</p>
+
+      <p>AI-generated code might be accelerating this in ways that are difficult to reverse. The volume of plausible, functional, mediocre code is increasing dramatically. And <em>there is nothing more permanent than something temporary that works</em>.</p>
+
+      <h3>Gatekeeping as a feature, not a bug</h3>
+
+      <p>The Linux kernel project has wrestled with this for years. For a long time, the single biggest bottleneck wasn't contribution, it was review. The most valuable members of the community weren't the people writing code, they were the people responsible for deciding what got merged.</p>
+
+      <p>Eric Raymond described two models in "The Cathedral and the Bazaar": the cathedral, built slowly and carefully by a small group; the bazaar, chaotic and open to all. Raymond was optimistic about the bazaar. Linux proved that openness could produce quality. But what he perhaps underestimated was that even the bazaar needs curators. The kernel's review bottleneck is the cathedral inside the bazaar. This is the bit that you <em>cannot</em> crowdsource.</p>
+
+      <p>There has always been some degree of necessary gatekeeping in open source. You cannot maintain a standard and simultaneously accept everything you're offered. Quality and volume are in tension. The frontier only moves forward because someone is willing to say no.</p>
+
+      <p>What has changed is the ratio. The volume of generated code has increased by several orders of magnitude. The number of people capable of meaningful review has not.</p>
+
+      <h3>Essential problems don't have silver bullets</h3>
+
+      <p>Fred Brooks drew a distinction in his 1987 essay "No Silver Bullet" between accidental complexity and essential complexity. Accidental complexity is the friction that comes from our tools being imperfect: poor languages, awkward APIs, slow build systems. Essential complexity is inherent to the problem itself. It can't be engineered away because it <em>is</em> the problem.</p>
+
+      <p>AI tooling handles accidental complexity reasonably well. It can write boilerplate, suggest completions, catch common errors. More than that, LLMs are functioning as a translation layer between human intent and machine instruction. They absorb the pain of language quirks, API inconsistencies, and syntactic friction so the developer doesn't have to feel it.</p>
+
+      <figure class="article-image">
+        <img src="../img/the_last_language_you_can_read/hal.webp" alt="Hal from 2001: A Space Odyssey" />
+        <figcaption>// "This mission is too important for me to allow you to jeopardize it."</figcaption>
+      </figure>
+
+      <p>That sounds like progress. But consider what we lose. Accidental complexity is uncomfortable, and <em>discomfort is a signal</em>. When C++ introduced multiple inheritance, the resulting mess wasn't just annoying. It was diagnostic. It told the community something real about the limits of the object-oriented model. That pain drove people toward better abstractions. If an LLM had simply papered over the complexity and made C++ multiple inheritance feel easy, we'd still be using it. The signal never would have reached anyone.</p>
+
+      <p>What AI tooling has almost nothing to say about is essential complexity: the hard design questions, the fundamental trade-offs, the moments where you have to decide what a system is actually for. Code review, done properly, is largely an exercise in navigating exactly that. It's about maintaining coherence, enforcing standards, transmitting tacit knowledge, and asking whether the thing being built is solving the right problem in the right way. Automating the surface while losing the substance isn't a solution. It's a way of appearing to solve a problem while quietly making it worse.</p>
+
+      <h3>The language you think in shapes what you can think</h3>
+
+      <p>Dijkstra argued in his 1972 Turing Award lecture, "The Humble Programmer," that the tools we use to express computation are not neutral. The choice of language is a moral question as much as a technical one. It shapes what we can say, what we can conceive, and what we're likely to miss. The programmer who is limited to thinking in a particular language is limited in the problems they can formulate, not just the solutions they can produce.</p>
+
+      <p>Paul Graham pushed a version of this further in "Beating the Averages," arguing that Lisp gave his startup the ability to think thoughts that competitors working in Java or C++ simply couldn't access. Whether you buy the Lisp maximalism or not, the underlying claim is worth taking seriously: the language you think in shapes what you're capable of thinking.</p>
+
+      <p>This is the deeper stake. It's not just that we might stop building new languages. It's that we might stop being able to conceive of certain categories of solution. If the tools we use to reason about computation stop evolving, our collective ability to think about hard problems contracts with them.</p>
+
+      <h3>The pioneers problem</h3>
+
+      <p>Programming language development, more than almost any other area of software, has depended on frontiersmen. People who identified that the existing tools were limiting human expression, not just performance, and built something new to close the gap.</p>
+
+      <p>In 2007, Robert Griesemer, Rob Pike, and Ken Thompson were at Google, frustrated. The languages available to them couldn't cleanly express what they were trying to build at scale. So they created Go: compiled fast, safe, built for distributed systems, and deliberately simple. It solved a human problem that humans could articulate because they'd felt it.</p>
+
+      <p>That's the thing. They felt the friction first. The language came second.</p>
+
+      <p>Would an LLM identify that kind of friction? Probably not. LLMs are trained on existing expression. They are, by design, retrospective. They optimise toward what has already been written, which makes them genuinely powerful for working within established paradigms and genuinely limited when it comes to recognising that a paradigm has run its course.</p>
+
+      <figure class="article-image">
+        <img src="../img/the_last_language_you_can_read/horse_and_carridge.jpg" alt="Horse and carridge" />
+        <figcaption>// "This is great. Let's never change or improve this."</figcaption>
+      </figure>
+
+      <p>This retrospective bias has a concrete, observable consequence that most people haven't fully thought through. Because there is always more information in the past than the present, there are always more training examples from what has been than from what is. The probability weights are stronger there. This is one of the reasons LLMs so frequently surface old versions of libraries as recommendations. It's not a bug in the system. It's the system working correctly. The past is simply more legible to it than the present.</p>
+
+      <p>And even if an AI-adjacent process somehow produced a new language, how would it get traction? There wouldn't be fresh training examples to draw from. But more fundamentally, there wouldn't be the human infrastructure that new languages actually depend on: the early adopters, the champions, the angry blog posts, the conference talks, the library authors who bet their time on something unproven. That bootstrapping problem is one that communities solve, not models.</p>
+
+      <p>The graveyard here is instructive. D, Nim, Haxe, Crystal: all solved real problems, all failed to reach critical mass. The barrier to a new language was never creating it. It was building the coordination layer around it thick enough that it became worth writing libraries for, which made it worth learning, which made it worth hiring for. Niklaus Wirth built Pascal, then Modula, then Oberon. Each a genuine step forward, each largely ignored in favour of C.</p>
+
+      <p>Good ideas don't automatically win. They need carriers.</p>
+
+      <p>Which raises a question I don't think has been taken seriously enough yet: if the path to mainstream adoption increasingly runs through LLM recommendation rather than community momentum, what does it look like to game that? How do you get an LLM to surface your language instead of the incumbents? We already know that probability weights favour volume. So are we going to start seeing synthetic GitHub repositories stuffed with LLM-generated code, not to be used, but to shift training distributions? To slip a language or library into the collective consciousness by sheer weight of manufactured presence? The incentive is already there. The tooling to do it cheaply is already there. The question is whether the people building the next generation of infrastructure understand what they'd be walking into.</p>
+
+      <h3>The corporate incentive question</h3>
+
+      <p>Companies have always created languages and tools to solve problems they actually had. Go came from Google's internal pain. Rust came from Mozilla's browser engine. Swift came from Apple's frustration with Objective-C. They made those tools public partly out of genuine goodwill, partly to attract talent, and partly because they understood that a healthy external community made the technology better and made the company more interesting to work for.</p>
+
+      <p>That incentive structure depended on humans being expensive. If the cost of software development drops significantly through AI tooling, something in that calculation shifts, though probably not uniformly. The more interesting question might be whether the <em>type</em> of thing that gets open sourced changes rather than whether open sourcing stops altogether. Infrastructure and tooling are still strong candidates for release, because shaping standards and locking in ecosystems is valuable regardless of how code gets written. Google has done this deliberately and repeatedly. What becomes less likely is the release of genuinely novel languages and paradigms: the things that were shared because they needed communities to stress-test and develop them. If that work can be done internally with AI tooling, the case for giving it away weakens significantly.</p>
+
+      <p>The worry isn't that companies stop open sourcing. It's that they open source the things that benefit them as platforms and quietly stop releasing the things that would benefit the field.</p>
+
+      <h3>What if the next language isn't for us?</h3>
+
+      <p>Every programming language ever built has shared one assumption: the audience is human. Not just the end user, but the author. Comments, naming conventions, readability guidelines, the entire discipline of software craftsmanship - all of it presupposes a person on the other end, trying to reason about what the code is doing and why.</p>
+
+      <p>We've been layering abstractions in one direction for seventy years. Assembly gave humans a readable wrapper around machine code. High-level languages gave us expressive syntax that maps closer to human reasoning than to hardware reality. Each step moved the code further from the machine and closer to the way people think. That trajectory has always felt inevitable, like the natural direction of progress.</p>
+
+      <p>But consider what happens when LLMs become the primary author and the primary reader. The format that optimises for machine-to-machine communication looks nothing like the format that optimises for human comprehension. We've already lived through a version of this transition: JSON is technically human-readable, and in practice nobody reads it. Protobuf is faster, smaller, and illegible by default, and that trade-off was worth making the moment machine throughput mattered more than human inspection. The illegibility wasn't a cost. It was a feature.</p>
+
+      <p>The same logic applies to code. If the thing writing the software and the thing reviewing the software are both models, the pressure to maintain human readability quietly disappears. What emerges might look less like a programming language and more like an intermediate representation: technically inspectable, practically opaque, optimised for a reader that doesn't get tired, doesn't need variable names to be meaningful, and has no use for comments.</p>
+
+      <figure class="article-image">
+        <img src="../img/the_last_language_you_can_read/gibberlink.png" alt="Three phones talking in secret language" />
+        <figcaption>// "Is that better than cave-man prompts? I'm tryna get my token count down, bro."</figcaption>
+      </figure>
+
+      <p>This is where the abstraction layer argument inverts. We've spent decades abstracting upward, away from machine concerns and toward human ones. LLMs introduce pressure in the opposite direction: abstracting downward, away from human legibility and toward machine efficiency. The next language might not be something practitioners read fluently. It might not be something they read at all.</p>
+
+      <p>And if that happens, the question of who builds programming languages, who maintains them, who argues about their design in mailing lists and conference talks, stops being a community question. It becomes an infrastructure question. Decided quietly, internally, by whoever controls the models.</p>
+
+      <h3>Where we're left</h3>
+
+      <p>I think there are a few questions here that don't have clean answers yet, and I'm more interested in naming them honestly than pretending otherwise.</p>
+
+      <p>Where does innovation come from now? The old model relied on practitioners feeling friction acutely enough to do something about it. If the friction is increasingly absorbed by tooling rather than experienced by the developer, does the signal that drives language design still reach anyone? And if Dijkstra was right, if the language shapes the thought, what happens to our collective reasoning about hard problems if the language layer stagnates?</p>
+
+      <p>How do we solve the code review bottleneck? Volume is increasing. The people capable of meaningful review are not multiplying to match. AI tooling addresses accidental complexity passably and essential complexity barely at all. That gap matters.</p>
+
+      <p>And when genuine innovation does appear, how do we surface and refine it? The mechanisms that used to do that work, forums, mailing lists, conference circuits, early adopter communities, are all under pressure from the same noise problem we started with. Worse-is-better dynamics don't favour the novel. They favour the familiar, the spread-ready, the good enough.</p>
+
+      <p>The giants are still there. I'm just not sure we've thought carefully enough about what happens if no one is building the shoulders anymore.</p>
+
+      <div class="author">
+        <img class="author__avatar" src="/img/dave_profile.jpg" alt="David A'Hearne">
+        <div class="author__body">
+          <p class="author__label">About the author</p>
+          <span class="author__name">David A'Hearne</span>
+          <p class="author__bio">ML Engineer and founder with 13 years building production systems, the last two focused on applied ML. I've shipped NLP scoring pipelines, RAG systems for clinical code retrieval, and LLM-integrated APIs with production MLOps tooling. Currently completing a BSc in Mathematics alongside a Cambridge Data Science Career Accelerator. I'm also building Covet, a hiring platform.</p>
+          <div class="author__pills">
+            <span>Python</span>
+            <span>ML &amp; NLP</span>
+            <span>Cloud Architecture</span>
+            <span>Distributed Systems</span>
+            <span>Go</span>
+          </div>
+          <div class="author__links">
+            <a class="author__link author__link--github" href="https://github.com/DaveAhearne" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+            <a class="author__link author__link--linkedin" href="https://www.linkedin.com/in/david-ahearne-767614b3" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.44v6.3zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-hard">
+        <p class="cta-hard__eyebrow">// what we're building</p>
+        <p class="cta-hard__heading">Covet is fixing the exact problem you just read about.</p>
+        <p class="cta-hard__body">Structured mutual qualification: candidates and companies matched on fit, not keyword density. No spray-and-pray. No ghosting. Rejections that actually tell you why.</p>
+        <a href="https://covet.digital" class="cta-hard__btn">Get early access</a>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <span class="footer__logo">Covet</span>
+        <span class="footer__tagline">Hiring that rewards fit, not volume.</span>
+      </div>
+      <div class="footer__bottom">
+        <div class="footer__legal">
+          <span>Covet Digital Ltd</span>
+          <span>Registered in England &amp; Wales · Company No. <span style="font-family: 'DM Mono', monospace;">17086106</span></span>
+          <span>71-75 Shelton Street, Covent Garden, London, WC2H 9JQ</span>
+        </div>
+        <div class="footer__links">
+          <a href="https://covet.digital/privacy">Privacy</a>
+          <a href="https://covet.digital/terms">Terms</a>
+          <a href="mailto:hello@covet.digital">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
