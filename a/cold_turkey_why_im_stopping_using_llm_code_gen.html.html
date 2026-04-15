@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <title>Cold Turkey: Why I'm Stopping Using LLM Code Gen - Covet Blog</title>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__logo">
+      <a href="https://covet.digital" class="nav__logo__brand">Covet</a>
+      <span class="nav__logo__sep">/</span>
+      <a href="/" class="nav__logo__section">Blog</a>
+    </div>
+    <div class="nav__links">
+      <a href="https://covet.digital" class="nav__cta">Get early access</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <main>
+      <h2>Cold Turkey: Why I'm Stopping Using LLM Code Gen</h2>
+
+      <blockquote class="quote">
+        "Measuring programming progress by lines of code is like measuring aircraft building progress by weight" 
+          <cite>— Bill Gates</cite>
+      </blockquote>
+
+      <p>That's an insight we understood once, and have quietly forgotten.</p>
+
+      <p>The editor wars of Vim vs Emacs and who can type faster, we always knew were a little silly. Tabs vs spaces, same thing. But at least those debates were harmless. The current obsession with AI-powered "productivity" is not.</p>
+
+      <p>Deleting code remains the hardest and most valuable thing you can do in a code base. To delete code from a running system you need to verifiably prove it's no longer used and won't affect running state. That's already hard but it's an order of magnitude harder in a system you never wrote.</p>
+
+      <h3>Look Ma, How Fast I'm Going!</h3>
+
+      <p>One of the most addictive things about these tools is the illusion of productivity. You can generate a lot of things very quickly. That feels good but it is not the same as making progress.</p>
+
+      <figure class="article-image">
+        <img src="../img/cold_turkey_why_im_stopping_using_llm_code_gen/hamster_wheel.webp" alt="Hamster in wheel" />
+        <figcaption>// But look how fast he runs!</figcaption>
+      </figure>
+
+      <p>I've been reading <em>Why Nations Fail</em>, which argues that liberal institutions, while slow, bureaucratic, apparently inefficient compared to autocracies are actually doing something autocracies skip. Front-loading the hard work of building consensus. Autocracies don't eliminate that work. They defer it, push it past the point of construction, where fixing things costs ten times more. And when the bill comes due, they point everyone at the next shiny project instead.</p>
+
+      <p>I think we're doing the same thing with software.</p>
+
+      <p>We're skipping the vital consensus-building step. "What should this thing actually be?"  and using generative tools to produce something that looks close enough to avoid real scrutiny. The cost doesn't show up today. It shows up six months from now, when the code base is a negotiation between things you wanted, things the model assumed, and fixes layered over fixes. Ask any engineer whether they'd rather work on a greenfield or brownfield project and you'll get the same answer every time. It's significantly harder to fix the car while it's driving than to build it right before you set off.</p>
+
+      <p>I have an amazingly beautiful and talented girlfriend works in the field of UX. She describes the same problem: clients get frustrated with conversations about what they want, how it should work, what the edge cases are. They consider anything other than visual output "wasting time." They just want it *built*. But everything built from that point is tainted, nothing fits cleanly, everything is just wrong. The design equivalent of a code base full of AI fixes.</p>
+
+      <h3>AI Slop Brain Rot</h3>
+
+      <p>I'm learning Spanish. <em>Mi español es muy malo, pero</em>. One of the things becoming clear as I practice is the difference between <em>recognition</em> and <em>recall</em>. Duolingo has built an entire dopamine loop around the former. It pats you on the back for recognizing something you half-remember, hands you a star, and very rarely asks you to produce anything from cold.</p>
+
+      <p>A lot of AI-assisted programming works the same way. It's easy to convince yourself you understand code you're reading. But reading and generating are different skills, and if you stop generating you atrophy the muscle that can produce it.</p>
+
+      <p>Yes, hunting through documentation is frustrating. And it's getting harder. Stack Overflow, once the bedrock of practical technical knowledge, is a ghost town. Partly because the people who used to answer questions are now just asking an LLM instead, and partly because the LLMs hoovered up that accumulated knowledge to train on and gave nothing back to the commons. The ouroboros is complete. Meanwhile, official documentation has quietly gotten worse: thinner, more generic, optimised for search rather than understanding. The kind of deep technical discussion that used to live in mailing lists, forums, and long-form blog posts has largely just... stopped. Everyone is shipping, nobody is writing.</p>
+
+      <figure class="article-image">
+        <img src="../img/cold_turkey_why_im_stopping_using_llm_code_gen/book.jpg" alt="Dusty old book" />
+        <figcaption>// The ancient tomes of StackOverflow & Blog posts.</figcaption>
+      </figure>
+
+      <p>This makes the friction of learning without AI assistance feel worse than it used to be. But the answer isn't to give up on the friction. It's to recognize that the friction was always the point. That discomfort is how the skill gets practiced. And if you find the level of abstraction you're working at genuinely too painful, wrap it. Functions in functions in functions, until the problem feels tractable again. That's engineering. That's the job.</p>
+
+      <p>I've had this exact problem building the data acquisition service for Covet. It felt like trying to untangle those venetian blinds, you know the ones, twisted and broken, the joke we used to make about CSS. Fix after fix, each one creating new problems, the model understanding eroding with every iteration until I'm further from working software than when I started. The awful feedback loop: 80% of what I wanted, moving backwards.</p>
+
+      <p>So I'm deleting that repo and starting fresh. <em>By hand</em>.</p>
+
+      <h3>Keeping Up With the Joneses</h3>
+
+      <p>No industry does this quite like tech. We're so desperate to be on the bleeding edge that we forget it's called the bleeding edge for a reason.</p>
+
+      <p>LinkedIn is the worst accelerant for this. People jostle for engagement on whatever the hottest trend is this week. Not because it makes them better engineers, but because engagement means status means money. I feel it too. There's an anxiety that says: learn this, adopt that, pick up those new tools, or you'll be left behind. But we need more confidence that years of hard-won skills are actually worth something. They are.</p>
+
+      <p>When it comes to doing the real work, we need to ask harder questions. Does this tool help us build *better* software, or just more of it, faster? Is speed of delivery the only metric that matters?</p>
+
+      <p>If you're building the latest Web3-Crypto-NFT-Agentic-AI thing, maybe it is. But if you're building something that decides whether a couple gets a mortgage, who receives medical treatment, what premium someone pays on their life insurance then *maybe slow is okay*. Maybe we don't need the experimental toys.</p>
+
+      <h3>Turkey Time</h3>
+
+      <p>I didn't say this process would be easy, and sure in a few days I might be clawing at the walls. But the decision is made.</p>
+
+      <p>I'm stopping using LLMs for code generation. Not because they can't produce code. Clearly they can, a lot of it, fast. But because fast and a lot turns out to be exactly the wrong thing for me right now. I don't want a code-base I half-understand, built on fixes layered over fixes, growing in directions I can't fully see. I've already got one of those. I'm deleting it.</p>
+
+      <p>What I want is to write software I can hold in my head. Software I can delete with confidence. Software that, when it breaks at 2am, I have a fighting chance of actually debugging. None of that is compatible with outsourcing the generation step.</p>
+
+      <p>Maybe in a year I'll have a different view. Maybe there's a version of these tools that genuinely augments rather than replaces the thinking. But right now, for me, the costs are higher than the benefits and I think more of us should be honest enough to say that out loud rather than pretending the emperor's new clothes are a perfect fit.</p>
+
+      <p>So. Cold turkey. Let's see how this goes.</p>
+
+
+      <div class="author">
+        <img class="author__avatar" src="/img/dave_profile.jpg" alt="David A'Hearne">
+        <div class="author__body">
+          <p class="author__label">About the author</p>
+          <span class="author__name">David A'Hearne</span>
+          <p class="author__bio">ML Engineer and founder with 13 years building production systems, the last two focused on applied ML. I've shipped NLP scoring pipelines, RAG systems for clinical code retrieval, and LLM-integrated APIs with production MLOps tooling. Currently completing a BSc in Mathematics alongside a Cambridge Data Science Career Accelerator. I'm also building Covet, a hiring platform.</p>
+          <div class="author__pills">
+            <span>Python</span>
+            <span>ML &amp; NLP</span>
+            <span>Cloud Architecture</span>
+            <span>Distributed Systems</span>
+            <span>Go</span>
+          </div>
+          <div class="author__links">
+            <a class="author__link author__link--github" href="https://github.com/DaveAhearne" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+            <a class="author__link author__link--linkedin" href="https://www.linkedin.com/in/david-ahearne-767614b3" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.44v6.3zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-hard">
+        <p class="cta-hard__eyebrow">// what we're building</p>
+        <p class="cta-hard__heading">Covet is fixing the exact problem you just read about.</p>
+        <p class="cta-hard__body">Structured mutual qualification: candidates and companies matched on fit, not keyword density. No spray-and-pray. No ghosting. Rejections that actually tell you why.</p>
+        <a href="https://covet.digital" class="cta-hard__btn">Get early access</a>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <span class="footer__logo">Covet</span>
+        <span class="footer__tagline">Hiring that rewards fit, not volume.</span>
+      </div>
+      <div class="footer__bottom">
+        <div class="footer__legal">
+          <span>Covet Digital Ltd</span>
+          <span>Registered in England &amp; Wales · Company No. <span style="font-family: 'DM Mono', monospace;">17086106</span></span>
+          <span>71-75 Shelton Street, Covent Garden, London, WC2H 9JQ</span>
+        </div>
+        <div class="footer__links">
+          <a href="https://covet.digital/privacy">Privacy</a>
+          <a href="https://covet.digital/terms">Terms</a>
+          <a href="mailto:hello@covet.digital">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
