@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9CEG4ZZ3T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-H9CEG4ZZ3T');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <title>F1 Podium Predictor - Covet Blog</title>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__logo">
+      <a href="https://covet.digital" class="nav__logo__brand">Covet</a>
+      <span class="nav__logo__sep">/</span>
+      <a href="/" class="nav__logo__section">Blog</a>
+    </div>
+    <div class="nav__links">
+      <a href="https://covet.digital" class="nav__cta">Get early access</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <main>
+      <h2>F1 Podium Predictor</h2>
+
+      <p>I've been watching a lot of F1 recently, yes. Drive to Survive did make me start watching, please don't judge me. I also love AI/ML work so why not put the two things together? So what we're going to do is build a (hopefully) somewhat accurate podium predictor model, firstly in a notebook based on a historic dataset and then we will build in all of the modern MLOps features (Evidently, Feast, LakeFS, MLflow etc.) to turn it into a proper prediction pipeline.</p>
+
+      <p>Before all of that however, we need to talk about three things.</p>
+
+      <ul>
+        <li>What do we actually want to predict?</li>
+        <li>What is our metric of success?</li>
+        <li>What is the life-cycle we'll use for our modeling?</li>
+      </ul>
+
+      <p>Firstly, what do we want to predict? <strong>Podium finishes</strong> — we want to be able to say, can we take a driver and get a probability that that driver will finish on the podium? I think one of the reasons that this is better than "Who will win" is that there are a lot more positive labels, which means we have a <em>much</em> easier time with reliability in training, as it gives the model enough positive examples to actually learn what a podium finish looks like rather than just saying "Nobody gets P1" and still <em>technically</em> being 95% accurate. Also, a P1 finish can come down to lots of different factors such as "Did Max stay up late again playing SimRacing or Minecraft?" that are not necessarily captured in a simple dataset like this one. So just going for podium finishes is more achievable.</p>
+
+      <p>Secondly, what's our metric of success, and what should our basis of comparison be? It would be cheating to define our success criteria afterwards (P-Hackers I'm looking at you). In terms of basis of comparison, let's go for better than the obvious. So we'll find the top 3 grid positions and use that data to predict the probability of finishing in the top 3. One thing to bear in mind here is that people in the top 3 still sometimes crash or DNF, but I think the intuition of this is actually pretty good as it highlights the fact that this isn't a perfect metric/heuristic to use! For the metric that we'll use to measure it, I think we should go with a ROC-AUC, this is because it's better here because we can slide around that classification threshold on the probability to assess the whole model not just a single slice like F1, but we can keep the F1 as a secondary metric as it's still useful. It might be tempting to use something like QWK but the problem here is that we don't actually care about the order at all, just about if a driver finishes in the top 3 so that doesn't really help us.</p>
+
+      <p>Finally, what's the life cycle we'll use for modelling? We've defined our problem, our measure of success. So what we need to do now is define our approach. Firstly, we'll take a heuristic baseline that someone who starts in the top 3 finishes in the top 3 to establish a baseline for prediction. Secondly, we'll train a model based on just the raw obvious features and record the metrics, that way we know how much predictive success we have before any clever feature engineering. Then, we'll iteratively engineer features that we believe provide predictive power and measure the improvement or lack of improvement in the model. We'll repeat this process until we've exhausted all of the hypotheses that we can come up with.</p>
+
+      <h3>Data, Data, Data</h3>
+
+      <p>Before anything, we need to <em>get</em> some data. Fortunately there are some really great APIs out there that provide this for us e.g. Ergast and Jolpica. They do have rate limits however so scraping all of it would take a long time, but fortunately there are existing exports of all of the historic data on Kaggle so we can just grab that:<br>
+      <a href="https://www.kaggle.com/datasets/jtrotman/formula-1-race-data" target="_blank" rel="noopener">https://www.kaggle.com/datasets/jtrotman/formula-1-race-data</a></p>
+
+      <h3>Exploratory Data Analysis</h3>
+
+      <h4>The Data</h4>
+
+      <p>Before we do anything remotely clever, we need to actually understand what we're working with. The Kaggle dataset gives us four main tables: <code>races</code>, <code>results</code>, <code>constructors</code>, <code>drivers</code>, and a <code>status</code> lookup. One quirk to be aware of upfront — the dataset uses <code>"\N"</code> as its null representation rather than an empty string, so we need to pass that in as <code>na_values</code> when loading, otherwise Pandas will merrily treat it as a real string and you'll spend a confusing hour debugging why your numeric columns are objects.</p>
+
+      <pre><code>race_df = pd.read_csv("../data/races.csv", na_values="\\N", parse_dates=["date", "quali_date"])
+res_df = pd.read_csv("../data/results.csv", na_values="\\N")</code></pre>
+
+      <p>The races table covers 1,171 entries from 1950 all the way through to the 2026 season calendar (which is already pre-populated in the dataset — hi future!). The results table has 26,759 rows once we join it up, and the constructors and drivers tables contain 214 and 865 entries respectively.</p>
+
+      <p>One important decision before we go any further: <strong>we're holding out 2025 as our test set</strong>. That means any EDA we do should be restricted to pre-2025 data — otherwise we're leaking information about our test distribution into our feature intuitions, which is a subtle but real form of cheating.</p>
+
+      <pre><code>race_df = race_df[race_df["year"] &lt; 2025]
+res_df = res_df[res_df["raceId"].isin(race_df["raceId"])]</code></pre>
+
+      <h4>Data Quality</h4>
+
+      <p>Before we go looking for interesting patterns, it's worth asking the more boring but important question: <em>is our data actually any good?</em> A NaN heatmap of the results table tells a pretty clear story. Time and milliseconds columns are missing for most of the historical data — not surprising given that precise timing infrastructure didn't always exist. More problematically, <code>fastestLap</code>, <code>fastestLapSpeed</code> and <code>rank</code> all have enormous gaps, which means we probably can't use them as features without introducing serious bias. We'll park those.</p>
+
+      <p>The <code>position</code> column has quite a few NaNs too, but this isn't as catastrophic as it looks — those missing values almost always correspond to DNFs, which we can infer from the linked <code>statusId</code>. The status lookup table itself is clean (140 statuses, nothing missing), so we have a complete taxonomy of <em>why</em> drivers didn't finish.</p>
+
+      <p>The drivers table has 802 out of 865 <code>number</code> fields missing and 757 out of 865 <code>code</code> fields missing, but these are historical artefacts of drivers who raced before permanent numbers were introduced. We won't be using them, so no issue there.</p>
+
+      <h4>Feature Analysis</h4>
+
+      <h5>Constructor Dominance</h5>
+
+      <p>Anyone who's watched even a few races knows that F1 has eras — periods where one team is so comprehensively ahead of the field that the podium feels practically pre-ordained. Think Brawn in 2009, Red Bull between 2010 and 2013, or Mercedes' seemingly endless run of dominance through the hybrid era.</p>
+
+      <p>To verify this intuition in the data, we look at the number of podium finishes per constructor per year. The heatmap is striking — the pattern of dominance is unmistakable. Alfa Romeo dominates the early 1950s, Ferrari and Williams bookend different eras, McLaren and Williams trade blows through the 80s and 90s, and Red Bull and Mercedes carved up the last decade and a half almost entirely between them. The practical implication here is that <strong>constructor identity should carry real predictive signal</strong> — particularly if we can represent it in a way that captures recency of form rather than just all-time historical record.</p>
+
+      <h5>Grid vs Finish Position Over Time</h5>
+
+      <p>The next hypothesis to check is a simple one: does where you start predict where you finish? We compute the average absolute difference between grid position and finishing position, year by year, and plot it with a trend line.</p>
+
+      <pre><code>position_difference_by_year_df["absPositionDifference"] = abs(
+    position_difference_by_year_df["grid"] - position_difference_by_year_df["position"]
+)</code></pre>
+
+      <p>There's a clear downward trend — the gap between start and finish position has shrunk over time. The modern era is noticeably more "locked in" than the 1980s and 90s. There's an important caveat here though: we're not accounting for DNFs. A driver who crashes out on lap 1 and is replaced in the running order effectively inflates the position differences for everyone else. So this trend could be as much about cars getting more reliable as it is about overtaking becoming harder — or both. Either way, it flags grid position as a strong candidate feature, and also hints that DNF modelling might matter.</p>
+
+      <h5>Driver Podium Rates</h5>
+
+      <p>There's clearly something that separates the Hamiltons and Verstappens of the world from the rest of the field beyond just the car they're in. To quantify this, we compute each driver's podium rate — podiums divided by total race starts.</p>
+
+      <p>We have to be a little careful here though. Sorting by raw podium rate throws up noise at the top end: two drivers with a 100% podium rate who each raced exactly once, and a handful of others inflated by tiny sample sizes. To get something more meaningful, we filter to drivers with at least 24 career starts — roughly one full season's worth of races.</p>
+
+      <pre><code>min_24_races_driver_position_df = driver_position_df[driver_position_df["race_count"] > 24]</code></pre>
+
+      <p>The resulting leaderboard is a who's who of the sport's legends. Juan Fangio sits at the top with a 60.3% podium rate over 58 races — genuinely absurd numbers. Lewis Hamilton is just behind at 56.7% across an astonishing 356 starts, with Max Verstappen not far behind at 53.6% across 209. There's clearly a meaningful spread in podium rates between drivers, which tells us that <strong>driver identity or some proxy for driver skill should be a useful feature</strong> rather than something we ignore.</p>
+
+      <h5>DNF Rates Over Time</h5>
+
+      <p>The final thing we want to look at is reliability — specifically, how DNF rates have changed over the sport's history, and whether they vary meaningfully by constructor.</p>
+
+      <p>The trend across the full history of the sport is dramatic. In the early 1950s, nearly <strong>half of all race entries ended in a DNF</strong>. By 2020 that had fallen to around 15%. Modern F1 cars are extraordinarily reliable compared to what they were even in the 1980s and 90s, where mid-30% DNF rates were common.</p>
+
+      <p>Crucially, this trend holds even when we strip out collision-related retirements and look at <em>mechanical</em> DNFs only — so it's not a case of the sport just getting safer for drivers while cars remain fragile. The reliability improvements are genuine.</p>
+
+      <p>When we break this down by constructor and year in a heatmap, the picture gets more interesting. It's not that some constructors are uniformly bad at reliability — it's that <strong>specific constructors go through bad periods</strong>, often corresponding to technical regulations changes or a particular power unit generation. That time-varying, constructor-specific reliability signal feels like something worth engineering into our feature set.</p>
+
+      <h4>What We've Learned</h4>
+
+      <p>To summarise before we move on: the data is broadly clean but has some gaps we'll need to work around (particularly around fastest lap data). More usefully, we've identified a handful of features that look like they should carry real predictive signal: qualifying grid position, constructor identity (especially recent form), driver historical podium rate, and some kind of reliability/DNF risk signal at the constructor level. These will form the basis of our feature engineering in the next stage. First though, let's get a baseline on the table.</p>
+
+      <h3>The Heuristic Baseline</h3>
+
+      <p>Before we train a single model, we need something to beat. We said at the start that we'd define our success criteria upfront, and that the baseline would be: <em>if you qualify in the top 3, you finish in the top 3</em>. But we can do something slightly more principled than a hard binary rule — we can turn it into a probability by asking, for each grid position, what fraction of the time has a driver from that position historically finished on the podium?</p>
+
+      <p>This is still a heuristic. There's no model here, no features, no fitting. It's just a lookup table from grid position to podium rate. But it's a surprisingly informed one.</p>
+
+      <h4>Building the Lookup Table</h4>
+
+      <p>We join the qualifying and results data together to get a combined grid/finish dataframe, then label each result as a podium finish or not.</p>
+
+      <pre><code>grid_result_df["podium"] = grid_result_df["position"] &lt;= 3
+podium_rate_by_grid = grid_result_df.groupby("grid")["podium"].mean().reset_index()</code></pre>
+
+      <p>One wrinkle: if we do this naively on the full historical dataset, we end up with grid positions going up to 34. That's because early F1 fields were much larger — 26-car grids weren't unusual in the 80s, and the pre-aerodynamic era featured even bigger fields. Trying to assign probabilities to grid positions that simply don't exist in the modern era is going to create noise without adding signal, so we restrict the training window to 1990–2024, which gives us a consistent modern grid structure.</p>
+
+      <pre><code>recent_grid_result_df = grid_result_df[
+    (grid_result_df["year"] >= 1990) &amp; (grid_result_df["year"] &lt; 2024)
+]</code></pre>
+
+      <p>(We exclude 2024 and onwards since that's part of our test window — same principle as before.)</p>
+
+      <p>The resulting probabilities are pretty intuitive. P1 carries a 74.4% historical podium rate, P2 a 62.3%, P3 drops to 51.2%, and then there's a fairly sharp cliff — P4 is 33.2%, P5 is 21.1%, and by P10 you're down at 4.6%. After around P15 the signal is essentially noise. This is the lookup table that becomes our "model".</p>
+
+      <h4>Evaluating on 2025</h4>
+
+      <p>We apply this lookup to the 2025 season results — our held-out test set — by joining each driver's grid position to their historical podium probability. Then we evaluate against the actual 2025 podium outcomes.</p>
+
+      <pre><code>fpr, tpr, thresholds = roc_curve(race_result_2025_df["podiumFinish"], race_result_2025_df["podiumProbability"])
+auc_score = roc_auc_score(race_result_2025_df["podiumFinish"], race_result_2025_df["podiumProbability"])</code></pre>
+
+      <p>The ROC-AUC comes out at <strong>0.93</strong>. For a lookup table. That's... awkward. In a good way.</p>
+
+      <p>The Brier score — which measures the accuracy of the probability estimates themselves rather than just their ranking — comes out at <strong>0.0596</strong>. Closer to 0 is better (0 would be perfect), and 0.06 is genuinely pretty good for a model with no parameters.</p>
+
+      <h4>Why This Is Actually a Problem</h4>
+
+      <p>Here's the honest take: we've set ourselves a tough target. An AUC of 0.93 from something this simple tells you that qualifying position is an <em>extremely</em> strong predictor of race outcome in the modern era — which, if you've watched a few races recently, probably isn't a shock. DRS, tyre management, and aerodynamic sensitivity to dirty air have all conspired to make overtaking harder and the grid order stickier than it used to be.</p>
+
+      <p>The bar we need to clear is therefore: can we do better than a grid-position lookup table? That's the question the rest of this project is trying to answer. We believe the answer is yes — but only if we engineer features that capture the <em>additional</em> information not already baked into qualifying: things like constructor form, driver skill relative to their car, and reliability risk. We'll find out.</p>
+
+      <div class="author">
+        <img class="author__avatar" src="/img/dave_profile.jpg" alt="David A'Hearne">
+        <div class="author__body">
+          <p class="author__label">About the author</p>
+          <span class="author__name">David A'Hearne</span>
+          <p class="author__bio">ML Engineer and founder with 13 years building production systems, the last two focused on applied ML. I've shipped NLP scoring pipelines, RAG systems for clinical code retrieval, and LLM-integrated APIs with production MLOps tooling. Currently completing a BSc in Mathematics alongside a Cambridge Data Science Career Accelerator. I'm also building Covet, a hiring platform.</p>
+          <div class="author__pills">
+            <span>Python</span>
+            <span>ML &amp; NLP</span>
+            <span>Cloud Architecture</span>
+            <span>Distributed Systems</span>
+            <span>Go</span>
+          </div>
+          <div class="author__links">
+            <a class="author__link author__link--github" href="https://github.com/DaveAhearne" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+            <a class="author__link author__link--linkedin" href="https://www.linkedin.com/in/david-ahearne-767614b3" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.44v6.3zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-hard">
+        <p class="cta-hard__eyebrow">// what we're building</p>
+        <p class="cta-hard__heading">Covet is fixing the exact problem you just read about.</p>
+        <p class="cta-hard__body">Structured mutual qualification: candidates and companies matched on fit, not keyword density. No spray-and-pray. No ghosting. Rejections that actually tell you why.</p>
+        <a href="https://covet.digital" class="cta-hard__btn">Get early access</a>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <span class="footer__logo">Covet</span>
+        <span class="footer__tagline">Hiring that rewards fit, not volume.</span>
+      </div>
+      <div class="footer__bottom">
+        <div class="footer__legal">
+          <span>Covet Digital Ltd</span>
+          <span>Registered in England &amp; Wales · Company No. <span style="font-family: 'DM Mono', monospace;">17086106</span></span>
+          <span>71-75 Shelton Street, Covent Garden, London, WC2H 9JQ</span>
+        </div>
+        <div class="footer__links">
+          <a href="https://covet.digital/privacy">Privacy</a>
+          <a href="https://covet.digital/terms">Terms</a>
+          <a href="mailto:hello@covet.digital">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
