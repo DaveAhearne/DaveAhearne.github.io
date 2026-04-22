@@ -246,7 +246,6 @@ a:hover {
 /* ─── Article body ────────────────────────────────────────────────────────── */
 main p {
   line-height: 1.75;
-  max-width: 65ch;
   margin: 1rem 0;
 }
 
@@ -618,6 +617,7 @@ pre code {
 
 /* ─── Responsive nav/footer ───────────────────────────────────────────────── */
 @media (max-width: 48rem) {
+  main p { max-width: 65ch; }
   .nav { padding: 1rem 1.5rem; }
   .nav__links { gap: 1.25rem; }
   .footer { padding: 2rem 1.5rem; margin-top: 2rem; }
