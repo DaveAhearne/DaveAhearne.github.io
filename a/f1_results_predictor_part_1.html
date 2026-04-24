@@ -38,7 +38,9 @@
 
       <p>I've been watching a lot of F1 recently, yes. Drive to Survive did make me start watching, don't judge me. I also love AI/ML work so why not put the two things together?</p>
       
-      <p>So, what we're going to do is build a (hopefully) somewhat accurate model that can predict who is going to end up on the podium on race weekend. The general flow of this project is going to be:</p>
+      <p>So, what we're going to do is build a (hopefully) accurate model that can predict who is going to end up on the podium on race weekend!</p>
+        
+      <p>The general flow of this project is going to be:</p>
       <ol>
         <li>Do some exploratory data analysis</li>
         <li>Create a heurisic base model for comparison</li>
@@ -49,7 +51,7 @@
       </ol>
 
       <h3>Tell me what you want, what you really really want.</h3>
-      <p>Before we can do any fun ML work, there are three fundamental questions we need to answer which are:</p>
+      <p>Before we can do any fun ML work, there are <strong>three</strong> fundamental questions we need to answer, which are:</p>
       <ul>
         <li>What do we actually want to predict?</li>
         <li>What is our metric of success?</li>
@@ -99,6 +101,11 @@ res_df = res_df[res_df["raceId"].isin(race_df["raceId"])]</code></pre>
 
       <p>Before we go looking for interesting patterns, it's worth asking the more boring but important question: <em>is our data actually any good?</em> A NaN heatmap of the results table tells a pretty clear story. Time and milliseconds columns are missing for most of the historical data, not surprising given that precise timing infrastructure didn't always exist. More problematically, <code>fastestLap</code>, <code>fastestLapSpeed</code> and <code>rank</code> all have enormous gaps, which means we probably can't use them as features without introducing serious bias. We'll park those.</p>
 
+      <figure class="article-image">
+        <img class="scaled" src="../img/f1_results_predictor_part_1/nan_values_for_results.png" alt="NaN values for results dataframe" />
+        <figcaption>// NaN values for results dataframe</figcaption>
+      </figure>
+
       <p>The <code>position</code> column has quite a few NaNs too, but this isn't as catastrophic as it looks, those missing values almost always correspond to DNFs, which we can infer from the linked <code>statusId</code>. The status lookup table itself is clean (140 statuses, nothing missing), so we have a complete taxonomy of <em>why</em> drivers didn't finish.</p>
 
       <p>The drivers table has 802 out of 865 <code>number</code> fields missing and 757 out of 865 <code>code</code> fields missing, but these are historical artefacts of drivers who raced before permanent numbers were introduced. We won't be using them, so no issue there.</p>
@@ -113,6 +120,11 @@ res_df = res_df[res_df["raceId"].isin(race_df["raceId"])]</code></pre>
 
       <p>To verify this intuition in the data, we look at the number of podium finishes per constructor per year. The heatmap is striking, the pattern of dominance is unmistakable. Alfa Romeo dominates the early 1950s, Ferrari and Williams bookend different eras, McLaren and Williams trade blows through the 80s and 90s, and Red Bull and Mercedes carved up the last decade and a half almost entirely between them. The practical implication here is that <strong>constructor identity should carry real predictive signal</strong>, particularly if we can represent it in a way that captures recency of form rather than just all-time historical record.</p>
 
+      <figure class="article-image">
+        <img class="scaled" src="../img/f1_results_predictor_part_1/podium_rates_by_constructor.png" alt="Podium Rates by Constructor" />
+        <figcaption>// Podium rates by constructor</figcaption>
+      </figure>
+
       <h5>Grid vs Finish Position Over Time</h5>
 
       <p>The next hypothesis to check is a simple one: does where you start predict where you finish? We compute the average absolute difference between grid position and finishing position, year by year, and plot it with a trend line.</p>
@@ -122,6 +134,11 @@ res_df = res_df[res_df["raceId"].isin(race_df["raceId"])]</code></pre>
 )</code></pre>
 
       <p>There's a clear downward trend, the gap between start and finish position has shrunk over time. The modern era is noticeably more "locked in" than the 1980s and 90s. There's an important caveat here though: we're not accounting for DNFs. A driver who crashes out on lap 1 and is replaced in the running order effectively inflates the position differences for everyone else. So this trend could be as much about cars getting more reliable as it is about overtaking becoming harder, or both. Either way, it flags grid position as a strong candidate feature, and also hints that DNF modelling might matter.</p>
+
+      <figure class="article-image">
+        <img class="scaled" src="../img/f1_results_predictor_part_1/position_vs_grid_over_time.png" alt="Position vs grid over time" />
+        <figcaption>// Position vs grid over time</figcaption>
+      </figure>
 
       <h5>Driver Podium Rates</h5>
 
@@ -133,21 +150,48 @@ res_df = res_df[res_df["raceId"].isin(race_df["raceId"])]</code></pre>
 
       <p>The resulting leaderboard is a who's who of the sport's legends. Juan Fangio sits at the top with a 60.3% podium rate over 58 races, genuinely absurd numbers. Lewis Hamilton is just behind at 56.7% across an astonishing 356 starts, with Max Verstappen not far behind at 53.6% across 209. There's clearly a meaningful spread in podium rates between drivers, which tells us that <strong>driver identity or some proxy for driver skill should be a useful feature</strong> rather than something we ignore.</p>
 
+      <figure class="article-image">
+        <img class="scaled" src="../img/f1_results_predictor_part_1/top_25_podium_rates.png" alt="Top 25 podium rates all time" />
+        <figcaption>// Top 25 podium rates all time</figcaption>
+      </figure>
+
+      <p>We can also see this reflected in a wider distribution of drivers. There is a clear right skew to the data, there are a few people who are <em>clearly</em> better than the rest of the field and it's a measurable difference.</p>
+
+      <figure class="article-image">
+        <img class="scaled" src="../img/f1_results_predictor_part_1/distribution_of_driver_podium_rates.png" alt="Distribution of podium rates all time" />
+        <figcaption>// Distribution of podium rates all time</figcaption>
+      </figure>
+
       <h5>DNF Rates Over Time</h5>
 
       <p>The final thing we want to look at is reliability, specifically, how DNF rates have changed over the sport's history, and whether they vary meaningfully by constructor.</p>
 
+      <figure class="article-image">
+        <img class="scaled" src="../img/f1_results_predictor_part_1/average_dnf_rate_over_time.png" alt="Average DNF rate over time" />
+        <figcaption>// Average DNF rate over time</figcaption>
+      </figure>
+
       <p>The trend across the full history of the sport is dramatic. In the early 1950s, nearly <strong>half of all race entries ended in a DNF</strong>. By 2020 that had fallen to around 15%. Modern F1 cars are extraordinarily reliable compared to what they were even in the 1980s and 90s, where mid-30% DNF rates were common.</p>
 
       <p>Crucially, this trend holds even when we strip out collision-related retirements and look at <em>mechanical</em> DNFs only, so it's not a case of the sport just getting safer for drivers while cars remain fragile. The reliability improvements are genuine.</p>
+      
+      <figure class="article-image">
+        <img class="scaled" src="../img/f1_results_predictor_part_1/average_mechanical_dnf_rate_over_time.png" alt="Average mechanical DNF rate over time" />
+        <figcaption>// Average mechanical DNF rate over time</figcaption>
+      </figure>
 
       <p>When we break this down by constructor and year in a heatmap, the picture gets more interesting. It's not that some constructors are uniformly bad at reliability, it's that <strong>specific constructors go through bad periods</strong>, often corresponding to technical regulations changes or a particular power unit generation. That time-varying, constructor-specific reliability signal feels like something worth engineering into our feature set.</p>
+
+      <figure class="article-image">
+        <img class="scaled" src="../img/f1_results_predictor_part_1/constructor_dnf_rates_per_year.png" alt="Constructor DNF rate over time" />
+        <figcaption>// Constructor DNF rate over time</figcaption>
+      </figure>
 
       <h4>What We've Learned</h4>
 
       <p>To summarise before we move on: the data is broadly clean but has some gaps we'll need to work around (particularly around fastest lap data). More usefully, we've identified a handful of features that look like they should carry real predictive signal: qualifying grid position, constructor identity (especially recent form), driver historical podium rate, and some kind of reliability/DNF risk signal at the constructor level. These will form the basis of our feature engineering in the next stage. First though, let's get a baseline on the table.</p>
 
-      <h3>The Heuristic Baseline</h3>
+      <h3>A More Realistic Baseline</h3>
 
       <p>Before we train a single model, we need something to beat. We said at the start that we'd define our success criteria upfront, and that the baseline would be: <em>if you qualify in the top 3, you finish in the top 3</em>. But we can do something slightly more principled than a hard binary rule, we can turn it into a probability by asking, for each grid position, what fraction of the time has a driver from that position historically finished on the podium?</p>
 
@@ -160,13 +204,18 @@ res_df = res_df[res_df["raceId"].isin(race_df["raceId"])]</code></pre>
       <pre><code>grid_result_df["podium"] = grid_result_df["position"] &lt;= 3
 podium_rate_by_grid = grid_result_df.groupby("grid")["podium"].mean().reset_index()</code></pre>
 
-      <p>One wrinkle: if we do this naively on the full historical dataset, we end up with grid positions going up to 34. That's because early F1 fields were much larger, 26-car grids weren't unusual in the 80s, and the pre-aerodynamic era featured even bigger fields. Trying to assign probabilities to grid positions that simply don't exist in the modern era is going to create noise without adding signal, so we restrict the training window to 1990–2024, which gives us a consistent modern grid structure.</p>
+      <p>One thing to be aware of is that if we do this naively on the full historical dataset, we end up with grid positions going up to 34. That's because early F1 fields were much larger, 26-car grids weren't unusual in the 80s, and the pre-aerodynamic era featured even bigger fields. Trying to assign probabilities to grid positions that simply don't exist in the modern era is going to create noise, so we restrict the training window to 1990–2024, which gives us a consistent modern grid structure.</p>
 
       <pre><code>recent_grid_result_df = grid_result_df[
     (grid_result_df["year"] >= 1990) &amp; (grid_result_df["year"] &lt; 2024)
 ]</code></pre>
 
       <p>(We exclude 2024 and onwards since that's part of our test window, same principle as before.)</p>
+
+      <figure class="article-image">
+        <img class="scaled" src="../img/f1_results_predictor_part_1/podium_rate_by_grid_position.png" alt="Podium rates by grid position" />
+        <figcaption>// Podium rates by grid position</figcaption>
+      </figure>
 
       <p>The resulting probabilities are pretty intuitive. P1 carries a 74.4% historical podium rate, P2 a 62.3%, P3 drops to 51.2%, and then there's a fairly sharp cliff, P4 is 33.2%, P5 is 21.1%, and by P10 you're down at 4.6%. After around P15 the signal is essentially noise. This is the lookup table that becomes our "model".</p>
 
@@ -177,15 +226,65 @@ podium_rate_by_grid = grid_result_df.groupby("grid")["podium"].mean().reset_inde
       <pre><code>fpr, tpr, thresholds = roc_curve(race_result_2025_df["podiumFinish"], race_result_2025_df["podiumProbability"])
 auc_score = roc_auc_score(race_result_2025_df["podiumFinish"], race_result_2025_df["podiumProbability"])</code></pre>
 
+      <figure class="article-image">
+        <img class="scaled" src="../img/f1_results_predictor_part_1/baseline_heuristic_model.png" alt="Baseline heuristic model" />
+        <figcaption>// Baseline heuristic model</figcaption>
+      </figure>
+
       <p>The ROC-AUC comes out at <strong>0.93</strong>. For a lookup table. That's... awkward. In a good way.</p>
 
       <p>The Brier score, which measures the accuracy of the probability estimates themselves rather than just their ranking, comes out at <strong>0.0596</strong>. Closer to 0 is better (0 would be perfect), and 0.06 is genuinely pretty good for a model with no parameters.</p>
 
-      <h4>Why This Is Actually a Problem</h4>
+      <p>Almost too good...</p>
 
-      <p>Here's the honest take: we've set ourselves a tough target. An AUC of 0.93 from something this simple tells you that qualifying position is an <em>extremely</em> strong predictor of race outcome in the modern era, which, if you've watched a few races recently, probably isn't a shock. DRS, tyre management, and aerodynamic sensitivity to dirty air have all conspired to make overtaking harder and the grid order stickier than it used to be.</p>
+      <h4>We've actually sort of made a mistake here...</h4>
 
-      <p>The bar we need to clear is therefore: can we do better than a grid-position lookup table? That's the question the rest of this project is trying to answer. We believe the answer is yes, but only if we engineer features that capture the <em>additional</em> information not already baked into qualifying: things like constructor form, driver skill relative to their car, and reliability risk. We'll find out.</p>
+      <p> There's actually a pretty big problem with the qualifying-based heuristic, <em>it leaks a huge amount of unintended signal into the model</em>. Qualifying position already has tyre performance, car setup, track conditions, and driver form baked right into it, so we're essentially marking our own homework. It's no wonder the metrics look so good.</p>
+
+      <p>On top of that, it's not a particularly useful model in practice. If we can only make predictions after qualifying has happened, we're already halfway through the race weekend. At that point, how useful is a podium prediction really?</p>
+
+      <figure class="article-image">
+        <img src="../img/f1_results_predictor_part_1/kimi_holding_trophy.jpeg" alt="Kimi holding trophy" />
+        <figcaption>// I predict a trophy, I base this on the fact that he is holding one.</figcaption>
+      </figure>
+
+      <h3>The Rolling Podium Rate Heuristic</h3>
+
+      <p>So, what do we use instead? A driver who has been consistently finishing on the podium over their last few races is probably more likely to do so again than one who hasn't. This solves our "same-weekend data" with just prior race history.</p>
+
+      <p>Specifically, we compute a rolling 5-race podium rate for each driver. For every race, we look at the five races immediately prior and ask, <em>"what fraction of those did this driver podium in?"</em>. That becomes the predicted probability we carry forward.</p>
+
+      <h4>Building It Without Leaking</h4>
+
+      <p>The tricky bit here is making sure we don't accidentally include the current race in the rolling window. A <code>shift(1)</code> before the rolling mean takes care of that as it pushes each driver's history back by one position so the window always ends at the race before the one we're predicting.</p>
+
+      <pre><code>race_results_by_year_df["podium"] = race_results_by_year_df["position"] &lt;= 3
+
+race_results_by_year_df["driver_podium_rate_5"] = (
+    race_results_by_year_df.groupby("driverId")["podium"]
+    .transform(lambda x: x.shift(1).rolling(5, min_periods=1).mean())
+)</code></pre>
+
+      <p>We train this on 1990-2024 and take each driver's final rolling rate as their going-in probability for 2025. For rookies or drivers with no prior history in the dataset, we assign a rate of 0. Because we don't have high expectations for them, and frankly the model shouldn't either.</p>
+
+      <p>Matching these probabilities onto the 2025 results is a simple left join on <code>driverId</code>. Any driver who doesn't appear in our historical data gets filled with 0.</p>
+
+      <h4>How Does It Do?</h4>
+
+      <figure class="article-image">
+        <img class="scaled" src="../img/f1_results_predictor_part_1/rolling_heuristic_model.png" alt="Rolling heurisic model" />
+        <figcaption>// Rolling heurisic model</figcaption>
+      </figure>
+
+      <p>Honestly, worse. But that's sort of the point. The ROC-AUC drops to <strong>0.79</strong> and the Brier score rises to <strong>0.12</strong>, both significantly behind the qualifying heuristic's 0.93 and 0.06 respectively.</p>
+
+      <p>It's also quite a bit more angular... This is a result of the rolling rate only being able to produce six distinct probability values <strong>(0, 0.2, 0.4, 0.6, 0.8, 1.0)</strong> because we're only looking at the past five races. So the ROC curve is really just six points joined by straight lines rather than a true curve. It's not a problem, the AUC is still a valid number, it just looks a little rougher.</p>
+
+      <p>But this is a <em>better</em> baseline to work against. The qualifying heuristic was always going to be hard to beat because it had so much same-weekend information baked in. A model that genuinely had to work with pre-weekend data only was always going to sit lower, and now we can see roughly where that ceiling is. 0.79 AUC is still pretty solid for something this simple. There is a signal here that we can tap into for sure, but there's clearly a lot more room for a proper model to improve on it, which is exactly what we want from a baseline.</p>
+
+      <h3>Next Steps...</h3>
+
+      <p>Okay great! We've got our baseline to measure against, next time we can actually do some fun stuff with AI/ML modelling to see if we can beat this!</p>
 
       <div class="author">
         <img class="author__avatar" src="/img/dave_profile.jpg" alt="David A'Hearne">
