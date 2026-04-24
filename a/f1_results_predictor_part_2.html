@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-H9CEG4ZZ3T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-H9CEG4ZZ3T');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;1,9..40,400&family=Lora:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+  <title>F1 Podium Predictor - Covet Blog</title>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav__logo">
+      <a href="https://covet.digital" class="nav__logo__brand">Covet</a>
+      <span class="nav__logo__sep">/</span>
+      <a href="/" class="nav__logo__section">Blog</a>
+    </div>
+    <div class="nav__links">
+      <a href="https://covet.digital" class="nav__cta">Get early access</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <main>
+      <h2>F1 Podium Predictor: A Simple Model</h2>
+
+      <div class="series-card">
+        <p class="series-card__eyebrow">Series · Part 2 of N</p>
+        <p class="series-card__body">This is the second in the F1 predictor series, the first one can be found <a href="https://blog.covet.digital/a/f1_results_predictor_part_1.html">here</a>.</p>
+
+        <p class="series-card__body">All the code lives over at <a href="https://github.com/DaveAhearne/F1Prediction" target="_blank">github.com/DaveAhearne/F1Prediction</a> if you want to follow along.</p>
+        <div class="series-card__footer">
+          <div class="series-card__pip"></div>
+          <span class="series-card__part">Longer read — ~15 min</span>
+        </div>
+      </div>
+
+      <p>Where we ended up last time is that we have a heurisic model that gives us the following metrics:</p>
+      <table>
+        <thead>
+          <tr>
+            <td>AUC/ROC</td>
+            <td>Brier Score</td>
+          </tr>
+        </thead>
+        <tr>
+            <td>0.79</td>
+            <td>0.12</td>
+          </tr>
+      </table>
+
+      <p>What we'd like to do now, is to try and find an ML method that can do better than this, but first off. Where do we even start?</p>
+
+      <h3>So many models, so little compute</h3>
+
+      <p>The first question is to identify what <strong>kind</strong> of problem we're actually solving. We're not labelling drivers as podium or not podium, we're predicting a probability for each driver. That's a regression framing, and it drives every decision below.</p>
+
+      <p>Neural nets are off the table. They're exceptional at finding complex non-linear patterns, but they're incredibly data hungry, millions of rows is a reasonable baseline for stable training. At 26,000 rows we'd be fighting overfitting from the start, with no guarantee the added complexity pays off.</p>
+
+      <p>That leaves tree-based models, which are well suited to structured tabular data at this scale. They handle mixed feature types, numeric rolling stats, categorical constructor IDs require minimal preprocessing, and produce well-calibrated probability outputs via a binary objective.</p>
+
+      <p>Within that family, we're choosing LightGBM over XGBoost. XGBoost grows trees level-wise, splitting every node at a given depth before going deeper. That makes it more conservative, more resilient to outliers, and better suited to very small or heavily imbalanced datasets. But, it's slower because it pays attention to everything exhaustively. LightGBM grows leaf-wise, greedily splitting whichever leaf offers the highest loss reduction. That makes it faster, which matters here because we'll be iterating heavily on feature engineering.</p>
+
+      <figure class="article-image">
+        <img class="scaled" src="../img/f1_results_predictor_part_2/xgboost_vs_lightgbm_tree_growth.svg" alt="XGBoost vs LightGBM" />
+        <figcaption>// XGBoost vs LightGBM</figcaption>
+      </figure>
+
+      <p>One cavet is that small datasets are actually <em>more</em> prone to overfitting with LightGBM, not less. Leaf-wise growth is aggressive, and with too few rows it can effectively memorise the training data. However, our dataset sits in a reasonable middle ground with thousands of rows, not hundreds. We can mitigate the remaining risk with regularisation parameters and cross-validation.</p>
+
+      <p>If the dataset were truly tiny, XGBoost would be the safer choice. But for our purposes, LightGBM should be great.</p>
+      
+      <h3>Next Steps...</h3>
+
+      <div class="author">
+        <img class="author__avatar" src="/img/dave_profile.jpg" alt="David A'Hearne">
+        <div class="author__body">
+          <p class="author__label">About the author</p>
+          <span class="author__name">David A'Hearne</span>
+          <p class="author__bio">ML Engineer and founder with 13 years building production systems, the last two focused on applied ML. I've shipped NLP scoring pipelines, RAG systems for clinical code retrieval, and LLM-integrated APIs with production MLOps tooling. Currently completing a BSc in Mathematics alongside a Cambridge Data Science Career Accelerator. I'm also building Covet, a hiring platform.</p>
+          <div class="author__pills">
+            <span>Python</span>
+            <span>ML &amp; NLP</span>
+            <span>Cloud Architecture</span>
+            <span>Distributed Systems</span>
+            <span>Go</span>
+          </div>
+          <div class="author__links">
+            <a class="author__link author__link--github" href="https://github.com/DaveAhearne" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.61-4.04-1.61-.55-1.39-1.34-1.76-1.34-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 3-.4c1.02 0 2.04.13 3 .4 2.28-1.55 3.29-1.23 3.29-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.61-2.81 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.21.7.82.58C20.56 21.8 24 17.3 24 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub
+            </a>
+            <a class="author__link author__link--linkedin" href="https://www.linkedin.com/in/david-ahearne-767614b3" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.44v6.3zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zm1.78 13.02H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45C23.2 24 24 23.23 24 22.27V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+              LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="cta-hard">
+        <p class="cta-hard__eyebrow">// what we're building</p>
+        <p class="cta-hard__heading">Covet is fixing the exact problem you just read about.</p>
+        <p class="cta-hard__body">Structured mutual qualification: candidates and companies matched on fit, not keyword density. No spray-and-pray. No ghosting. Rejections that actually tell you why.</p>
+        <a href="https://covet.digital" class="cta-hard__btn">Get early access</a>
+      </div>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__top">
+        <span class="footer__logo">Covet</span>
+        <span class="footer__tagline">Hiring that rewards fit, not volume.</span>
+      </div>
+      <div class="footer__bottom">
+        <div class="footer__legal">
+          <span>Covet Digital Ltd</span>
+          <span>Registered in England &amp; Wales · Company No. <span style="font-family: 'DM Mono', monospace;">17086106</span></span>
+          <span>71-75 Shelton Street, Covent Garden, London, WC2H 9JQ</span>
+        </div>
+        <div class="footer__links">
+          <a href="https://covet.digital/privacy">Privacy</a>
+          <a href="https://covet.digital/terms">Terms</a>
+          <a href="mailto:hello@covet.digital">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
